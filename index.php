@@ -15,21 +15,13 @@ session_start();?>
     <title>fil rouge </title>
 </head>
 
-<body>
-    <header id="main-header"> 
-        <div id="time">12:00</div>
-        <div id="right-icons">
-          <i class="fa fa-signal"></i>
-          <i class="fa fa-wifi"></i>
-          <i class="fa fa-battery-full"></i>
-        </div>
-    </header>
-    <div class="main-background">
+<body> <div class="img-content">
+    <img src="images/img-appli.png">
+</div>
         <div class="main-content">
             <h1>Bienvenue à CAT GAMING</h1>
             <p>Vivez pleinement les joies du chat gaming</p>
         </div>
-    </div>
     <button class="full-rounded">
     <a href="login.php">
         <span>Continuer<i class="fas fa-arrow-right"></i></span>

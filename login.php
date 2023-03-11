@@ -18,7 +18,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
     if($user) {
         $_SESSION['user_id'] = $user['id'];
-        header('Location: chat.php');
+        header('Location: forum.php');
         exit();
     } else {
         $error = 'Nom d\'utilisateur ou mot de passe incorrect';
@@ -34,17 +34,17 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
 </head>
 <body>
-    <h1>Page de connexion</h1>
     <?php if(isset($error)) { ?>
         <p><?php echo $error; ?></p>
     <?php } ?>
-    <form method="POST">
-        <label for="username">Nom d'utilisateur :</label>
-        <input type="text" name="username" required><br>
-        <label for="password">Mot de passe :</label>
-        <input type="password" name="password" required><br>
-        <input type="submit" value="Se connecter">
-    </form>
-    <p>Pas encore inscrit ? <a href="inscription.php">Inscrivez-vous ici</a>.</p>
+<form method="POST" class="login-form">
+    <img src="images/img-appli.png" alt="Image de l'application">
+    <label for="username">Nom d'utilisateur :</label>
+    <input type="text" name="username" required>
+    <label for="password">Mot de passe :</label>
+    <input type="password" name="password" required>
+    <button class="button-85" role="button">Envoyer</button>
+</form>
+<p>Pas encore inscrit ? <a href="inscription.php">Inscrivez-vous ici</a>.</p>
 </body>
 </html>

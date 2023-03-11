@@ -11,6 +11,8 @@ include 'inscription.php';
 include 'discussionRepository.php';
 include 'chat.php';
 include 'index2.php';
+include 'amis.php';
+
 
 // Vérifier si l'utilisateur est connecté
 session_start();

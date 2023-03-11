@@ -67,7 +67,8 @@ if (isset($_POST['message'])) {
     <link rel="stylesheet"  href="style.css">
     <link rel="stylesheet"  href="custom.css">
     <script src="script.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-**************" crossorigin="anonymous" />
+
 
 </head>
 
@@ -101,7 +102,7 @@ if (isset($_POST['message'])) {
         <form method="POST" class="delete-message-form">
             <input type="hidden" name="message_id" value="<?php echo $message['id_message']; ?>">
             <button type="submit" name="delete_message" class="delete-message-button">
-                <img src="images/trash.png" alt="Supprimer" class="delete-icon">
+            <i class="fas fa-trash delete-icon" title="Supprimer"></i>
             </button>
         </form>
     </li>
@@ -124,7 +125,7 @@ if (isset($_POST['message'])) {
 <footer>
   <nav>
     <ul>
-      <li><a href="#"><i class="fas fa-home"></i></a></li>
+    <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
       <li><a href="#"><i class="fas fa-user"></i></a></li>
       <li><a href="#"><i class="fas fa-gamepad"></i></a></li>
       <li><a href="#"><i class="fas fa-envelope"></i></a></li>
