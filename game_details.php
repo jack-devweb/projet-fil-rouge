@@ -21,6 +21,7 @@ if (isset($_GET['game_id'])) {
 $stmt = $pdo->prepare("SELECT game_id FROM favorite_games WHERE user_id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $favorite_games_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+$friends_favorite_games = array();
 
 if (isset($_POST['toggle_favorite'])) {
     $game_id = $_POST['game_id'];
@@ -34,6 +35,17 @@ if (isset($_POST['toggle_favorite'])) {
     header('Location: ' . $_SERVER['REQUEST_URI']);
     exit;
 }
+$friends_favorite_games = array();
+$stmt = $pdo->prepare("SELECT f.friend_name, g.name as game_name
+                       FROM friends as f
+                       INNER JOIN favorite_games as fg ON f.friend_id = fg.user_id
+                       INNER JOIN game as g ON g.id = fg.game_id
+                       WHERE f.user_id = ?");
+
+
+$stmt->execute([$_SESSION['user_id']]);
+$friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 // jeux favoris 
 

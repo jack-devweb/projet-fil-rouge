@@ -1,6 +1,7 @@
 <?php
 // Démarrer la session
 session_start();
+include_once('config.php');
 
 // Inclure le fichier de connexion à la base de données
 include_once('db.php');

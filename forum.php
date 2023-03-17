@@ -1,5 +1,7 @@
 <?php
- session_start();
+session_start();
+ require_once 'config.php';
+
 // Connexion à la base de données
 $host = 'localhost';
 $dbname = 'mobi';
@@ -12,15 +14,10 @@ $options = [
   PDO::ATTR_EMULATE_PREPARES => false,
 ];
 try {
-  $pdo = new PDO($dsn, $username, $password, $options);
 } catch (PDOException $e) {
   echo "Erreur de connexion à la base de données : " . $e->getMessage();
   exit();
 } 
-
-// Récupération des sujets de discussion depuis la base de données
-$stmt = $pdo->query('SELECT id, titre, date FROM news ORDER BY date DESC');
-$sujets = $stmt->fetchAll();
 ?>
 
 
@@ -80,7 +77,7 @@ $sujets = $stmt->fetchAll();
       <ul>
         <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
         <li><a href="amis.php"><i class="fas fa-user"></i></a></li>
-       <li><a href="<?php echo isset($_SESSION['user_id']) ? 'game.php' : 'login.php'; ?>">
+        <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
     <i class="fas fa-gamepad"></i></a></li>
         <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
         <li><a href="#"> <i class="fas fa-cog"></i></a></li>

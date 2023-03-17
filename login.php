@@ -36,19 +36,20 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
 </head>
 <body>
-    <?php if(isset($error)) { ?>
-        <p><?php echo $error; ?></p>
-    <?php } ?>
-   
-<form method="POST" class="login-form">
-    <img src="images/img-appli.png" alt="Image de l'application">
-    <label for="username">Nom d'utilisateur :</label>
-    <input type="text" name="username" required>
-    <label for="password">Mot de passe :</label>
-    <input type="password" name="password" required>
-    <a href="forum.php" class="custom-button">Continuer</a>
-    
-</form>
-<p>Pas encore inscrit ? <a href="inscription.php">Inscrivez-vous ici</a>.</p>
+    <?php if (!isset($_SESSION['user_id'])): ?> <!-- Ajoutez cette ligne -->
+        <?php if (isset($error)): ?>
+            <p><?php echo $error; ?></p>
+        <?php endif; ?>
+
+        <form method="POST" class="login-form">
+            <img src="images/img-appli.png" alt="Image de l'application">
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" name="username" required>
+            <label for="password">Mot de passe :</label>
+            <input type="password" name="password" required>
+            <button type="submit" class="custom-button">Continuer</button>
+        </form>
+        <p>Pas encore inscrit ? <a href="inscription.php">Inscrivez-vous ici</a>.</p>
+    <?php endif; ?> <!-- Ajoutez cette ligne -->
 </body>
 </html>
