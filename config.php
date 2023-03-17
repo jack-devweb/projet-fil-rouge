@@ -1,21 +1,15 @@
 <?php
-
 // Inclure les fichiers de configuration et de connexion à la base de données
-require_once 'config.php';
 require_once 'db.php';
 // inclure les pages
-include 'index.php';
-include 'login.php';
-include 'logout.php';
-include 'inscription.php';
-include 'discussionRepository.php';
-include 'chat.php';
-include 'index2.php';
-include 'amis.php';
-
+if (isset($_SESSION['user_id'])) {
+    echo '<a href="game.php"><i class="fas fa-gamepad"></i></a>';
+} else {
+    echo '<a href="login.php"><i class="fas fa-gamepad"></i></a>';
+}
 
 // Vérifier si l'utilisateur est connecté
-session_start();
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();

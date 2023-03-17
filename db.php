@@ -11,7 +11,7 @@ class Db {
             $this->conn = new PDO('mysql:host='.$this->host.';dbname='.$this->db_name, $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $exception) {
-            echo 'Erreur de connexion à la base de données : '.$exception->getMessage();
+            throw new Exception('Erreur de connexion à la base de données : '.$exception->getMessage());
         }
 
         return $this->conn;
@@ -24,4 +24,5 @@ class Db {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-} ?>
+}
+?>

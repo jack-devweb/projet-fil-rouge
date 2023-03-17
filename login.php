@@ -22,6 +22,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
         exit();
     } else {
         $error = 'Nom d\'utilisateur ou mot de passe incorrect';
+        echo $error;
     }
 }
 ?>
@@ -31,19 +32,22 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 <head>
     <title>Page de connexion</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 </head>
 <body>
     <?php if(isset($error)) { ?>
         <p><?php echo $error; ?></p>
     <?php } ?>
+   
 <form method="POST" class="login-form">
     <img src="images/img-appli.png" alt="Image de l'application">
     <label for="username">Nom d'utilisateur :</label>
     <input type="text" name="username" required>
     <label for="password">Mot de passe :</label>
     <input type="password" name="password" required>
-    <button class="button-85" role="button">Envoyer</button>
+    <a href="forum.php" class="custom-button">Continuer</a>
+    
 </form>
 <p>Pas encore inscrit ? <a href="inscription.php">Inscrivez-vous ici</a>.</p>
 </body>
