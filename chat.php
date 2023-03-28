@@ -1,178 +1,317 @@
 <?php
 session_start();
-require_once('db.php');
+include_once 'db.php';
+include_once 'config.php';
 
-//Vérifie si l'utilisateur est connecté
+// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
-
 }
-// Récupère le nom de l'utilisateur connecté
-$userName = getUserName($_SESSION['user_id']);
-// Récupère l'image de l'utilisateur connecté
-$userImage = getUserImage($userName);
-// Récupère les utilisateurs connectés de la base de données
-$db = new Db();
-$conn = $db->getConnection();
-$stmt = $conn->prepare('SELECT nom, image FROM users WHERE est_connecte = 1');
-$stmt->execute();
-$utilisateurs_connectes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Affiche les utilisateurs connectés
-echo '<ul class="users-list">';
-foreach ($utilisateurs_connectes as $utilisateur) {
-    echo '<li class="user-container">';
-    echo '<img src="uploads/' . $utilisateur['image'] . '" class="user-img">';
-    echo '<span>' . $utilisateur['nom'] . '</span>';
-    echo '</li>';
+// Récupérer les informations de l'utilisateur connecté
+$user_id = $_SESSION['user_id'];
+$user_name = getUserName($user_id);
+$user_image = getUserImage($user_id);
+$friends = getFriends($user_id);
+$non_friends = getNonFriends($user_id);
+
+// Vérifier si un utilisateur a été sélectionné pour le chat
+if (isset($_GET['user_id'])) {
+    $friend_id = $_GET['user_id'];
+    $friend_name = getUserName($friend_id);
+    $friend_image = getUserImage($friend_id);
+
+    // Vérifier si une discussion existe entre l'utilisateur connecté et l'utilisateur sélectionné
+    $discussion_id = getDiscussionId($user_id, $friend_id);
+
+    // Si aucune discussion n'existe, créer une nouvelle discussion
+    if ($discussion_id == null) {
+        $discussion_id = createDiscussion($user_id, $friend_id);
+    }
+
+    // Récupérer les messages de la discussion
+    $messages = getDiscussionMessages($discussion_id);
+
+    // Vérifier si le formulaire d'envoi de message a été soumis
+    if (isset($_POST['submit_message']) && isset($_POST['message'])) {
+        $message = $_POST['message'];
+
+        // Insérer le message dans la base de données
+        insertMessage($message, $user_id, $discussion_id);
+
+        // Actualiser la page pour afficher le nouveau message
+        header("Location: chat.php?user_id=$friend_id");
+        exit;
+    }
+} else {
+    // Si aucun utilisateur n'a été sélectionné, afficher la liste des utilisateurs connectés
+    $connected_users = getConnectedUsers();
 }
-echo '</ul>';
 
-// Affiche l'image de l'utilisateur connecté
-echo '<p class="welcome"><img src="uploads/' . $userImage . '">' . $userName . '!</p>';
-function getUserImage($username)
+function getUserName($user_id)
 {
     require_once('db.php');
-    $db = new Db();
-    $conn = $db->getConnection();
-    $stmt = $conn->prepare('SELECT image FROM users WHERE nom = :username');
-    $stmt->bindParam(':username', $username);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result['image'];
-}
 
-function getUserName($userId)
-{
-    require_once('db.php');
     $db = new Db();
     $conn = $db->getConnection();
-    $stmt = $conn->prepare('SELECT nom FROM users WHERE id = :userId');
-    $stmt->bindParam(':userId', $userId);
+
+    $stmt = $conn->prepare('SELECT nom FROM users WHERE id = :user_id');
+    $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
+
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
     return $result['nom'];
 }
 
+function getUserImage($user_id)
+{
+    require_once('db.php');
 
-// Récupère les messages de la base de données
-$db = new Db();
-$conn = $db->getConnection();
-$stmt = $conn->query('SELECT messages.*, users.nom, users.image FROM messages JOIN users ON messages.id = users.id ORDER BY date DESC');
-$messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $db = new Db();
+    $conn = $db->getConnection();
 
-
-if (isset($_POST['submit_message']) && isset($_POST['message'])) {
-    $message = $_POST['message'];
-    $user_id = $_SESSION['user_id'];
-    $now = date('Y-m-d H:i:s'); // ou $now = date('Y-m-d H:i:s', time());
-    $id_discussion = 1; // Remplacer 1 par l'ID que vous souhaitez utiliser
-
-    $stmt = $conn->prepare('INSERT INTO messages (contenu, date, id, discussion_id) VALUES (:contenu, :date, :id, :discussion_id)');
-    $stmt->bindParam(':contenu', $message);
-    $stmt->bindParam(':date', $now);
-    $stmt->bindParam(':id', $user_id);
-    $stmt->bindParam(':discussion_id', $id_discussion); // Ajoutez cette ligne
+    $stmt = $conn->prepare('SELECT image FROM users WHERE id = :user_id');
+    $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
 
-    // Rediriger l'utilisateur vers la même page pour éviter une nouvelle soumission du formulaire lors de l'actualisation de la page
-    header('Location: chat.php');
-    exit;
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result['image'];
+}
+
+function getConnectedUsers()
+{
+    require_once('db.php');
+
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('SELECT id, nom, image FROM users WHERE est_connecte = 1 AND id != :user_id');
+    $stmt->bindParam(':user_id', $_SESSION['user_id']);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getDiscussionId($user_id, $friend_id)
+{
+    require_once('db.php');
+
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('SELECT id FROM discussions WHERE (user1_id = :user_id AND user2_id = :friend_id) OR (user1_id = :friend_id AND user2_id = :user_id)');
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':friend_id', $friend_id);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return $result['id'];
+    } else {
+        return null;
+    }
+}
+
+function createDiscussion($user_id, $friend_id)
+{
+    require_once('db.php');
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('INSERT INTO discussions (user1_id, user2_id) VALUES (:user1_id, :user2_id)');
+    $stmt->bindParam(':user1_id', $user_id);
+    $stmt->bindParam(':user2_id', $friend_id);
+    $stmt->execute();
+
+    return $conn->lastInsertId();
+}
+
+function getDiscussionMessages($discussion_id)
+{
+    require_once('db.php');
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('SELECT messages.id_message, messages.contenu, messages.date, messages.id, messages.discussion_id, users.nom, users.image FROM messages JOIN users ON messages.id = users.id WHERE discussion_id = :discussion_id ORDER BY messages.date ASC');
+    $stmt->bindParam(':discussion_id', $discussion_id);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function insertMessage($message, $user_id, $discussion_id)
+{
+    require_once('db.php');
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('INSERT INTO messages (contenu, date, id, discussion_id) VALUES (:contenu, NOW(), :id, :discussion_id)');
+    $stmt->bindParam(':contenu', $message);
+    $stmt->bindParam(':id', $user_id);
+    $stmt->bindParam(':discussion_id', $discussion_id);
+    $stmt->execute();
+}
+
+function getFriends($user_id)
+{
+    require_once('db.php');
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('SELECT users.id AS friend_id, users.nom AS friend_name, users.image AS friend_image FROM friends JOIN users ON friends.friend_id = users.id WHERE friends.user_id = :user_id AND friends.statut = "accepte"');
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getNonFriends($user_id)
+{
+    require_once('db.php');
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('SELECT * FROM users WHERE id != :user_id AND id NOT IN (SELECT friend_id FROM friends WHERE user_id = :user_id AND statut != "non-ami")');
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>
-
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
+    <title>tchat</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1z8SoEvPzUHBzIOAU5w6gA2Y7rUp6UJLl0rJ6+"
- crossorigin="anonymous" />
+    <link rel="stylesheet" href="custom.css">
     <script src="script.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-**************" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 </head>
 
 <body>
-    <header class="header">
-        <a href="javascript:history.back()"><i class="fa fa-arrow-left"></i></a>
-        <p class="welcome"><img src="images/profil2.jpg">
-            <?php echo $userName; ?>!
-        </p>
-        <!-- <p class="welcome">Bienvenue  echo $_SESSION['user_id']; ?>!</p> -->
+    <header>
+        <div class="user-info">
+            <img src="uploads/<?php echo $user_image; ?>" alt="Image utilisateur" class="profile-image">
+            <span class="username">
+                <?php echo $user_name; ?>
+            </span>
+            <a href="logout.php">Se déconnecter</a>
+        </div>
     </header>
-    <main class="main">
-    <section class="messages-section">
-        <h2 class="section-title"></h2>
-        <ul class="messages-list">
-<?php foreach ($messages as $message) { 
-    $length = strlen($message['contenu']);
-    if ($length <= 50) {
-        $borderSize = "2px";
-    } else if ($length > 50 && $length <= 100) {
-        $borderSize = "4px";
-    } else {
-        $borderSize = "6px";
-    }
-?>
-    <li class="message-item" style="border-width: <?php echo $borderSize; ?>;">
-        <strong class="message-author">
-            <img src="uploads/<?php echo $message['image']; ?>" class="user-img">
-            <?php echo $message['nom']; ?>:
+    <main>
+        <?php if (isset($connected_users)): ?>
+            <h1>Utilisateurs connectés</h1>
+            <div class="columns">
+                <div class="column">
+                    <h2>Amis</h2>
+                    <ul class="user-list">
+                        <?php
+                        foreach ($friends as $friend):
+                            ?>
+                            <?php if (count($friends) == 0): ?>
+                                <p>Aucun ami trouvé.</p>
+                            <?php endif; ?>
+                            <li>
+                                <a href="chat.php?user_id=<?php echo $friend['friend_id']; ?>">
+                                    <img src="uploads/<?php echo $friend['friend_image']; ?>" alt="Image ami"
+                                        class="profile-image">
+                                    <span>
+                                        <?php echo $friend['friend_name']; ?>
+                                    </span>
+                                </a>
+                                <a href="user_profile.php?user_id=<?php echo $friend['friend_id']; ?>"><button
+                                        class="view-profile">Voir le profil</button></a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h2>Non-Amis</h2>
+                    <ul class="user-list">
+                        <?php foreach ($non_friends as $non_friend):
+                            ?>
+                            <li>
+                                <a href="chat.php?user_id=<?php echo $non_friend['id']; ?>">
+                                    <img src="uploads/<?php echo $non_friend['image']; ?>" alt="Image non-ami"
+                                        class="profile-image">
+                                    <span>
+                                        <?php echo $non_friend['nom']; ?>
+                                    </span>
+                                </a>
+                                <a href="user_profile.php?user_id=<?php echo $non_friend['id']; ?>"><button
+                                        class="view-profile">Voir le profil</button></a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="chat-window">
+                <div class="friend-info">
+                    <img src="uploads/<?php echo $friend['image']; ?>" alt="Image ami" class="profile-image">
+                    <span>
+                        <?php echo $friend_name; ?>
+                    </span>
+                </div>
 
-        
-        </strong>
-        <?php echo $message['contenu']; ?>
-        <form method="POST" class="delete-message-form">
-            <input type="hidden" name="message_id" value="<?php echo $message['id_message']; ?>">
-            <button type="submit" name="delete_message" class="delete-message-button">
-            <i class="fas fa-trash delete-icon" title="Supprimer"></i>
-            </button>
-        </form>
-    </li>
-<?php } ?>
-</ul>
+                <ul class="message-list">
+                    <?php foreach ($messages as $message): ?>
+                        <?php if ($message['id'] == $user_id): ?>
+                            <li class="sent">
+                                <p>
+                                    <?php echo $message['contenu']; ?>
+                                </p>
+                            </li>
+                        <?php else: ?>
+                            <li class="received">
+                                <img src="uploads/<?php echo $message['image']; ?>" alt="Image utilisateur" class="profile-image">
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="username">
+                                            <?php echo $message['nom']; ?>
+                                        </span>
+                                        <span class="message-time">
+                                            <?php echo date_format(date_create($message['date']), 'H:i'); ?>
+                                        </span>
+                                    </div>
+                                    <div class="message-body">
+                                        <?php echo $message['contenu']; ?>
+                                    </div>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
 
+                <form class="send-message-form" action="" method="post">
+                    <input type="text" name="message" placeholder="Entrez votre message...">
+                    <button type="submit" name="submit_message"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        <?php endif; ?>
+    </main>
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
+                <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
+                <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
+                <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
+                <li><a href="#"><i class="fas fa-cog"></i></a></li>
+            </ul>
 
-    </section>
-    <section class="send-message-section">
-    <form action="chat.php" method="POST" class="send-message-form">
-    <label for="message"></label>
-    <textarea id="message" name="message"></textarea>
-    <label for="message" class="send-message-label"></label>
-    <input type="submit" name="submit_message" value="Envoyer" class="custom-button">
-   
-</form>
-</section>
-</main>
-
-
-    <?php
-    if (isset($_POST['delete_message'])) {
-        $message_id = $_POST['message_id'];
-        $stmt = $conn->prepare('DELETE FROM messages WHERE id_message = :message_id');
-        $stmt->bindParam(':message_id', $message_id);
-        $stmt->execute();
-        // header('Location: game.php');
-        exit;
-    }
-    ?>
-<footer>
-  <nav>
-    <ul>
-    <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
-        <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
-       <li><a href="<?php echo isset($_SESSION['user_id']) ? 'game.php' : 'login.php'; ?>">
-    <i class="fas fa-gamepad"></i></a></li>
-        <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
-        <li><a href="#"> <i class="fas fa-cog"></i></a></li>
-    </ul>
-  </nav>
-</footer>
+        </nav>
+    </footer>
 
 </body>
+
 </html>

@@ -72,7 +72,7 @@ textarea {
   width: 100%;
 }
 body{
- background-color: #000 !important;
+  background-color: #000000;
 }
 
 
@@ -86,7 +86,7 @@ li {
   background-color: chartreuse;
 }
 
-/* Style pour le bouton personnalisé */
+/* Style pour le bouton personnalisÃ© */
 .custom-button {
   display: inline-block;
   background-color: #071347;
@@ -122,7 +122,7 @@ li {
   /* Changer la couleur en #333 */
 }
 
-/* Style pour les articles de jeux vidÃƒÂ©o */
+/* Style pour les articles de jeux vidÃƒÆ’Ã‚Â©o */
 .article {
   display: flex;
   flex-wrap: wrap;
@@ -172,55 +172,6 @@ li {
 
 .articles-list a:hover {
   text-decoration: underline;
-}
-
-
-footer {
-  background-color: #02182a;
-  color: #fff;
-  height: 90px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  border-radius: 20px;
-}
-
-nav ul {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  text-align: center;
-  /* Ajout de cette ligne */
-}
-
-nav ul li {
-  margin: 0;
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-}
-
-nav ul li a {
-  display: block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  color: #fff;
-  font-size: 29px;
-  border: #00ffd5 1px solid;
-  border-radius: 50px;
-}
-
-
-nav ul li:hover a {
-  background-color: #000;
-  color: #fff;
-  transform: scale(1.2);
 }
 
 textarea {
@@ -297,15 +248,6 @@ textarea {
   transform: scale(1.2);
 }
 
-.footer-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  background-color: #ffffff;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-}
 
 .page-container img {
   display: flex;
@@ -396,7 +338,7 @@ a:-webkit-any-link {
 .login-form p{
  color:#ffffff;
  font-size:40px;
- margin-left:50px;
+ /* margin-left:50px; */
 }
 .login-form p a {
   color :#48ff00;
@@ -412,7 +354,7 @@ form textarea {
 input,
 textarea {
   color: #02182A;
-  background-color: #02182a;
+  background-color: #541266;
   border: 1px solid #02182A;
   padding: 10px;
   font-size: 16px;
@@ -440,7 +382,7 @@ textarea {
   cursor: pointer;
 }
 header a {
-  margin-left: 100px;
+  margin-left: 22px;
   color :white;
 }
 
@@ -547,41 +489,10 @@ header a {
   background-color: #f1f1f1;
 }
 
-/* Ajoutez d'autres classes pour d'autres utilisateurs si nÃƒÂ©cessaire */
+/* Ajoutez d'autres classes pour d'autres utilisateurs si nÃƒÆ’Ã‚Â©cessaire */
 .user-img{
   width:110px;
   border-radius:50%;
-}
-footer {
-  background-color: #02182a;
-  color: #fff;
-  height: 90px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  border-radius: 20px;
-}
-
-.footer-container {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  z-index: 1; /* Ajout de la propriété z-index */
-}
-
-.footer-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  z-index: 1000;
 }
 .users-list {
   display: flex;
@@ -590,7 +501,7 @@ footer {
   align-items: center;
 }
 .send-button {
-  z-index: 2; /* Ajout de la propriété z-index */
+  z-index: 2; /* Ajout de la propriÃ©tÃ© z-index */
 }
 .send-message-section {
   margin-top: 30px;
@@ -638,4 +549,196 @@ footer {
   object-fit: cover;
   border-radius: 50%;
   margin-right: 10px;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  background-color: #02182a;
+  color: #fff;
+  height: 70px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-radius: 12px;
+  margin-left: 0; /* Ajout de cette ligne pour supprimer la marge à gauche */
+}
+footer nav ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin-bottom:10px;
+}
+footer nav ul li {
+  margin: 0 17px 0px  15px; /* Ajustez la valeur pour modifier l'espacement entre les éléments */
+  /* margin-bottom: 34px; */
+  margin-top: -11px;
+}
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+}
+
+nav ul li {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li a {
+  display: block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #fff;
+  font-size: 29px;
+  border: #00ffd5 1px solid;
+  border-radius: 50px;
+}
+
+nav ul li:hover a {
+  background-color: #000;
+  color: #fff;
+  transform: scale(1.2);
+}
+
+main {
+  margin-bottom: 90px; /* Hauteur du pied de page */
+  overflow: auto;
+}
+.en_tete{
+  display:flex;
+  align-items: center;
+  flex-direction:column;
+}
+.en_tete img{
+  border-radius: 100% ;
+}
+.lien_inscription{
+  text-align:center
+}
+.user-list img{
+  width: 68px;
+  object-fit: cover; /* redimensionne l'image pour couvrir la zone */
+
+  /* Créez une bordure circulaire rouge */
+  border: 3px solid red;
+  border-radius: 50%; /* arrondit les coins pour former un cercle */
+}
+
+.user-info{
+  display:flex;
+  justify-content:space-between;
+}
+.user-info img{
+  width: 70px;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.username {
+  /* ajoutez vos styles ici */
+  color: #8cff00;
+  font-size: 25px;
+  font-weight: bold;
+}
+.user-info a{
+ font-size: 15px;
+ font-family: roboto sans-serif;
+ border:1px solid red;
+ height: 4vh;
+}
+.profile-img {
+  width: 118px;
+  height:118px;
+  object-fit: cover; /* redimensionne l'image pour couvrir la zone */
+
+  /* Créez une bordure circulaire rouge */
+  border: 3px solid red;
+  border-radius: 100%; /* arrondit les coins pour former un cercle */
+}
+.user-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh; /* min-height permet de couvrir au moins la hauteur de la fenêtre du navigateur */
+  flex-direction: column; /* aligne les éléments à la verticale */
+}
+.user-profile h2{
+  font-family: Stencil Std, fantasy	;
+  /* couleur du texte */
+  color: white;
+  /* largeur du contour et couleur */
+  -webkit-text-stroke: 2px rgb(255, 0, 0);
+  font-size: 24px;}
+
+.bio-desc {
+    border: 2px solid rgb(0, 255, 0);
+    box-shadow: 0 4px 8px rgba(192, 174, 174, 0.2); /* Ajout de l'ombre à la boîte */
+    width: 80%;
+    padding: 10px; /* Ajout d'un espacement à l'intérieur du cadre */
+    word-wrap: break-word; /* Permet au texte de passer à la ligne s'il dépasse de la largeur du cadre */
+}
+.jeux_prefere{
+  border: 2px solid rgb(0, 255, 0);
+  box-shadow: 0 4px 8px rgba(242, 238, 238, 0.742); /* Ajout de l'ombre à la boîte */
+  width: 80%;
+}
+.form-label {
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.user-info img{
+  width: 68px;
+  object-fit: cover; /* redimensionne l'image pour couvrir la zone */
+
+  /* Créez une bordure circulaire rouge */
+  border: 3px solid red;
+  border-radius: 50%; /* arrondit les coins pour former un cercle */
+}
+.view-profile {
+  border: none;
+  outline: none;
+  background-color: #6c5ce7;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 5px;
+  transition: all ease 0.1s;
+  box-shadow: 0px 5px 0px 0px #a29bfe;
+}
+
+.view-profile:active {
+  transform: translateY(5px);
+  box-shadow: 0px 0px 0px 0px #a29bfe;
+}
+.columns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.column:last-child {
+  margin-right: 0;
+}
+
+.profile-image {
+  width: 50px; /* Ajustez la largeur souhaitée */
+  height: 50px; /* Ajustez la hauteur souhaitée */
+  object-fit: cover; /* Gardez les proportions de l'image */
+  border-radius: 50%; /* Rendre l'image de profil circulaire, si vous le souhaitez */
 }

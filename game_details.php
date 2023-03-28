@@ -52,15 +52,23 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+
 <head>
-  <title><?= $game['name'] ?></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://kit.fontawesome.com/45e38e596f.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacts</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="custom.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1z8SoEvPzUHBzIOAU5w6gA2Y7rUp6UJLl0rJ6+" crossorigin="anonymous" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-**************" crossorigin="anonymous" />
 </head>
 <body>
+    <main>
   <h1><?= $game['name'] ?></h1>
   <img src="<?= 'images/' . $game['name'] . '.png' ?>" alt="<?= $game['description'] ?>">
   <p><?= $game['description'] ?></p>
@@ -69,9 +77,8 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <form method="post">
       <input type="hidden" name="game_id" value="<?= $game_id ?>">
       <button type="submit" name="toggle_favorite"><?= in_array($game_id, $favorite_games_ids) ? "Supprimer des favoris" : "Ajouter aux favoris" ?></button>
-  </form>
-  <a href="game.php">Retour à la liste des jeux</a>
-
+      <a href="game.php">Retour à la liste des jeux</a>
+    </form>
   <h2>Jeux favoris des amis</h2>
   <ul>
       <?php foreach ($friends_favorite_games as $friend_favorite_game) : ?>
@@ -80,5 +87,17 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </li>
       <?php endforeach ?>
   </ul>
+      </main>
+  <footer>
+    <nav>
+      <ul>
+        <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
+        <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
+        <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
+        <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
+        <li><a href="#"> <i class="fas fa-cog"></i></a></li>
+      </ul>
+    </nav>
+  </footer>
 </body>
 </html>

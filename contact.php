@@ -1,108 +1,193 @@
 <?php
 session_start();
-require_once('db.php');
-require_once 'config.php';
+include_once 'db.php';
+include_once 'config.php';
+
+// Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
 
-$db = new Db();
-$conn = $db->getConnection();
+// Récupérer les informations de l'utilisateur connecté
+$user_id = $_SESSION['user_id'];
+$user_name = getUserName($user_id);
+$user_image = getUserImage($user_id);
 
-$stmt = $conn->prepare('SELECT id, nom, image FROM users WHERE id != :userId');
-$stmt->bindParam(':userId', $_SESSION['user_id']);
-$stmt->execute();
-$contacts_potentiels = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Vérifier si le formulaire de modification de profil a été soumis
+if (isset($_POST['submit_profile'])) {
+    $nom = $_POST['nom'];
+    $bio = $_POST['bio'];
+
+    // Mettre à jour les informations de l'utilisateur dans la base de données
+    updateUserInfo($user_id, $nom, $bio);
+
+    // Actualiser la page pour afficher les nouvelles informations
+    header('Location: user_profile.php?user_id=' . $user_id);
+    exit;
+}
+else {
+    // Récupérer les informations de l'utilisateur depuis la base de données
+    $user_info = getUserInfo($user_id);
+}
+
+function getUserName($user_id) {
+    require_once('db.php');
+
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('SELECT nom FROM users WHERE id = :user_id');
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result['nom'];
+}
+
+function getUserImage($user_id) {
+    require_once('db.php');
+
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('SELECT image FROM users WHERE id = :user_id');
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result['image'];
+}
+
+function getUserInfo($user_id) {
+    require_once('db.php');
+
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('SELECT nom, bio FROM users WHERE id = :user_id');
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function updateUserInfo($user_id, $nom, $bio) {
+    require_once('db.php');
+
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('UPDATE users SET nom = :nom, bio = :bio WHERE id = :user_id');
+    $stmt->bindParam(':nom', $nom);
+    $stmt->bindParam(':bio', $bio);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+}
+
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contacts</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="custom.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1z8SoEvPzUHBzIOAU5w6gA2Y7rUp6UJLl0rJ6+" crossorigin="anonymous" />
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-        integrity="sha512-**************" crossorigin="anonymous" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="custom.css">
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+  <title>Mon profil</title>
 </head>
-<script>
-
-document.querySelectorAll('.add-friend').forEach(button => {
-    button.addEventListener('click', () => {
-        const userId = button.getAttribute('data-user-id');
-        fetch('ajouter_amis.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `user_id2=${userId}`
-        }).then(response => response.text()).then(text => {
-            alert(text);
-        });
-    });
-});
-
-document.querySelectorAll('.remove-friend').forEach(button => {
-    button.addEventListener('click', () => {
-        const userId = button.getAttribute('data-user-id');
-        fetch('supprimer_amis.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `user_id2=${userId}`
-        }).then(response => response.text()).then(text => {
-            alert(text);
-        });
-    });
-});
-</script>
 
 <body>
-    <header class="header">
-        <h1 class="title">Contacts</h1>
-        <a href="javascript:history.back()"><i class="fa fa-arrow-left"></i></a>
-    </header>
-    <main class="main">
-        <ul class="contacts-list">
-            <?php foreach ($contacts_potentiels as $contact) { ?>
-                <li class="contact-item">
-                    <img src="uploads/<?php echo $contact['image']; ?>" class="user-img">
-                    <span>
-                        <?php echo $contact['nom']; ?>
-                    </span>
-                    <div class="actions">
-                        <button class="add-friend" data-user-id="<?php echo $contact['id']; ?>">Ajouter en ami</button>
-                        <button class="remove-friend" data-user-id="<?php echo $contact['id']; ?>">Supprimer</button>
-                        <a href="chat.php?user_id=<?php echo $contact['id']; ?>" class="action">Envoyer un message</a>
-                        <a href="friend_profile.php?friend_id=<?php echo $friend_id; ?>">Voir le profil</a>
-                    </div>
-                </li>
-            <?php } ?>
-        </ul>
-    </main>
-    <footer>
-        <div class="footer-container">
-            <nav>
-                <ul>
-                    <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
-                    <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
-                    <li><a href="<?php echo isset($_SESSION['user_id']) ? 'game.php' : 'login.php'; ?>">
-                            <i class="fas fa-gamepad"></i></a></li>
-                    <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i></a></li>
-                </ul>
-            </nav>
-        </div>
-    </footer>
-</body>
+<header>
+    <div class="user-info">
+        <img src="uploads/<?php echo $user_image; ?>" alt="Image utilisateur">
+        <span class="username"><?php echo $user_name; ?></span>
+        <a href="logout.php">Se déconnecter</a>
+    </div>
+</header>
+<main class="modifier_profil">
+    <h1>Mon profil</h1>
+    <form class="profile-form" action="" method="post" enctype="multipart/form-data">
+        <label class="form-label" for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom" value="<?php echo $user_info['nom']; ?>">
+        <label class="form-label" for="bio">Bio :</label>
+        <textarea id="bio" name="bio"><?php echo $user_info['bio']; ?></textarea>
+        <label class="form-label">Image de profil :</label>
+        <input type="file" id="image" name="image">
+        <label class="form-label">Valider:</label>
+        <input type="submit" name="update_profile" value="Enregistrer les modifications">
+    </form>
+</main>
 
+
+<?php
+// Vérifier si le formulaire de mise à jour du profil a été soumis
+if (isset($_POST['update_profile'])) {
+    // Récupérer les valeurs des champs du formulaire
+    $nom = $_POST['nom'];
+    $bio = $_POST['bio'];
+
+    // Vérifier si une nouvelle image de profil a été envoyée
+    if ($_FILES['image']['name'] != '') {
+        $image = $_FILES['image']['name'];
+        $tmp_image = $_FILES['image']['tmp_name'];
+        $image_size = $_FILES['image']['size'];
+
+        // Vérifier le type et la taille de l'image
+        $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
+        $file_extension = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+
+        if (!in_array($file_extension, $allowed_extensions)) {
+            echo 'Le type de fichier n\'est pas autorisé.';
+            exit;
+        }
+
+        // Supprimer l'ancienne image de profil
+        $old_image = $user_info['image'];
+        if ($old_image != '') {
+            unlink('uploads/' . $old_image);
+        }
+
+        // Télécharger la nouvelle image de profil
+        $new_image = uniqid() . '.' . $file_extension;
+        move_uploaded_file($tmp_image, 'uploads/' . $new_image);
+    }
+    else {
+        // Conserver l'ancienne image de profil
+        $new_image = $user_info['image'];
+    }
+
+    // Mettre à jour les informations de profil de l'utilisateur dans la base de données
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('UPDATE users SET nom = :nom, bio = :bio, image = :image WHERE id = :user_id');
+    $stmt->bindParam(':nom', $nom);
+    $stmt->bindParam(':bio', $bio);
+    $stmt->bindParam(':image', $new_image);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+
+    // Actualiser la page pour afficher les nouvelles informations de profil
+    header('Location: user_profile.php?user_id=' . $user_id);
+    exit;
+}
+?>
+<footer>
+  <nav>
+    <ul>
+      <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
+      <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
+      <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
+      <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
+      <li><a href="#"><i class="fas fa-cog"></i></a></li>
+    </ul>
+    
+  </nav>
+</footer>
+</body>
 </html>

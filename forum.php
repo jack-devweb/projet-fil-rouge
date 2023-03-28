@@ -1,26 +1,30 @@
 <?php
 session_start();
- require_once 'config.php';
-
+require_once 'config.php';
+require_once 'db.php';
 // Connexion à la base de données
-$host = 'localhost';
-$dbname = 'mobi';
-$username = 'root';
-$password = '';
-$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
-$options = [
-  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-  PDO::ATTR_EMULATE_PREPARES => false,
-];
 try {
+  $db = new Db();
+  $pdo = $db->getConnection();
+  // Récupérer les sujets de discussion
+  $stmt = $pdo->prepare("SELECT * FROM news"); // Remplacez "sujets" par le nom de votre table de sujets
+  $stmt->execute();
+  $sujets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   echo "Erreur de connexion à la base de données : " . $e->getMessage();
   exit();
-} 
+}
+
+// Vérifier si l'utilisateur est déjà connecté
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+  header('Location: forum.php');
+  exit;
+}
 ?>
-
-
+<!-- Code HTML pour afficher le bouton de déconnexion -->
+<form action="logout.php" method="post">
+  <button type="submit">Déconnexion</button>
+</form>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -36,7 +40,7 @@ try {
 </head>
 
 <body>
-  
+
   <h1>Forum de discussion</h1>
 
   <div class="article">
@@ -76,9 +80,8 @@ try {
     <nav>
       <ul>
         <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
-        <li><a href="amis.php"><i class="fas fa-user"></i></a></li>
+        <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
         <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
-    <i class="fas fa-gamepad"></i></a></li>
         <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
         <li><a href="#"> <i class="fas fa-cog"></i></a></li>
       </ul>
@@ -92,9 +95,9 @@ try {
       <?php echo $sujet['date_creation']; ?>
     </p>
     <a href="discussion.php?id=<?php echo $sujet['id']; ?>">Voir la discussion</a>
-    
+
   <?php } ?>
-  
+
 </body>
 
 </html>

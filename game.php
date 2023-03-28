@@ -9,12 +9,6 @@ include_once('db.php');
 // Créer une connexion à la base de données
 $pdo = new PDO('mysql:host=localhost;dbname=mobi;charset=utf8', 'root', '');
 
-// Vérifier si l'utilisateur est connecté, sinon le rediriger vers la page de connexion
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit;
-}
-
 // Récupérer les jeux de la table 'game'
 $query = $pdo->query('SELECT * FROM game');
 // Stocker les jeux dans la variable $games sous forme de tableau associatif
@@ -24,13 +18,20 @@ $games = $query->fetchAll(PDO::FETCH_ASSOC);
 <!-- Le reste du code est du HTML -->
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+
 <head>
-  <title>Liste des jeux</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://kit.fontawesome.com/45e38e596f.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacts</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="custom.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1z8SoEvPzUHBzIOAU5w6gA2Y7rUp6UJLl0rJ6+" crossorigin="anonymous" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-**************" crossorigin="anonymous" />
 </head>
 <body>
 <h1>Mes jeux</h1>
@@ -45,7 +46,6 @@ $games = $query->fetchAll(PDO::FETCH_ASSOC);
 </div>
 <?php endforeach ?>
 
-
 <footer>
   <nav>
     <ul>
@@ -55,6 +55,7 @@ $games = $query->fetchAll(PDO::FETCH_ASSOC);
       <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
       <li><a href="#"><i class="fas fa-cog"></i></a></li>
     </ul>
+    
   </nav>
 </footer>
 

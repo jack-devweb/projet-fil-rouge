@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $date = date("Y-m-d H:i:s");
     $bio = $_POST['bio'];
-    $jeux_favoris = $_POST['jeux_favoris'];
+    $jeux_favoris = $_POST['console'];
     $image = "uploads"; // Remplacez cela par le chemin de l'image par défaut
     // traitement du champ image
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -65,8 +65,17 @@ if (isset($_POST['submit'])) {
 
 <head>
     <title>Inscription</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="custom.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1z8SoEvPzUHBzIOAU5w6gA2Y7rUp6UJLl0rJ6+" crossorigin="anonymous" />
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-**************" crossorigin="anonymous" />
+</head>
 
 </head>
 
@@ -83,8 +92,15 @@ if (isset($_POST['submit'])) {
         <textarea name="bio"></textarea><br>
         <label for="avatar">Avatar :</label>
         <input type="file" name="image" id="image">
-        <label for="jeux_favoris">Jeux favoris :</label>
-        <input type="text" name="jeux_favoris"><br>
+        <label for="console">Console :</label>
+        <br>
+        <select name="console" id="console">
+        <option value="playstation">PlayStation</option>
+        <option value="xbox">Xbox</option>
+        <option value="pc">PC</option>
+        <option value="nintendo switch">Nintendo Switch</option>
+  </select>
+  <br>
         <input type="submit" name="submit" value="S'inscrire">
        
 

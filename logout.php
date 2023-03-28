@@ -2,12 +2,11 @@
 session_start();
 
 // Détruire toutes les variables de session
-$_SESSION = array();
+session_unset();
 
 // Détruire la session
 session_destroy();
-
 // Rediriger l'utilisateur vers la page de connexion
-header('Location: chat.php');
-exit();
+header('Location: login.php');
+exit;
 ?>

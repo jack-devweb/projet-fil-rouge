@@ -1,6 +1,16 @@
-<?php session_start();
-require_once "config.php"; ?>
+<?php
+session_start();
+require_once "config.php"; 
+require_once "db.php";
 
+// Vérifie si l'utilisateur est connecté
+if (isset($_SESSION['user_id'])) {
+    // Si l'utilisateur est déjà connecté, redirigez-le directement vers la page forum.php
+    header('Location: forum.php');
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -31,10 +41,6 @@ require_once "config.php"; ?>
     <a href="login.php" class="custom-button">Continuer</a>
   </div>
 </div>
-
-
-
-
 </body>
 
 </html>

@@ -49,7 +49,7 @@ $games = $query->fetchAll(PDO::FETCH_ASSOC);
     <nav>
       <ul>
         <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
-        <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
+        <li><a href="amis.php"><i class="fas fa-user"></i></a></li>
         <!-- <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li> -->
        <li><a href="<?php echo isset($_SESSION['user_id']) ? 'game.php' : 'login.php'; ?>">
     <i class="fas fa-gamepad"></i></a></li>
