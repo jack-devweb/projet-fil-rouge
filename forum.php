@@ -14,12 +14,6 @@ try {
   echo "Erreur de connexion à la base de données : " . $e->getMessage();
   exit();
 }
-
-// Vérifier si l'utilisateur est déjà connecté
-if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-  header('Location: forum.php');
-  exit;
-}
 ?>
 <!-- Code HTML pour afficher le bouton de déconnexion -->
 <form action="logout.php" method="post">
@@ -92,7 +86,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
       <?php echo $sujet['titre']; ?>
     </h3>
     <p>Date de création :
-      <?php echo $sujet['date_creation']; ?>
+      <?php echo $sujet['date']; ?>
     </p>
     <a href="discussion.php?id=<?php echo $sujet['id']; ?>">Voir la discussion</a>
 
