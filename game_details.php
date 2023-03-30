@@ -69,24 +69,28 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <main>
+        <div class="detail">
   <h1><?= $game['name'] ?></h1>
   <img src="<?= 'images/' . $game['name'] . '.png' ?>" alt="<?= $game['description'] ?>">
   <p><?= $game['description'] ?></p>
   <p>Date de sortie : <?= $game['annee_de_sortie'] ?></p>
+</div>
   
+<div class="centered-content">
   <form method="post">
-      <input type="hidden" name="game_id" value="<?= $game_id ?>">
-      <button type="submit" name="toggle_favorite"><?= in_array($game_id, $favorite_games_ids) ? "Supprimer des favoris" : "Ajouter aux favoris" ?></button>
-      <a href="game.php">Retour à la liste des jeux</a>
-    </form>
+    <input type="hidden" name="game_id" value="<?= $game_id ?>">
+    <button type="submit" name="toggle_favorite"><?= in_array($game_id, $favorite_games_ids) ? "Supprimer des favoris" : "Ajouter aux favoris" ?></button>
+    <a href="game.php">Retour à la liste des jeux</a>
+  </form>
   <h2>Jeux favoris des amis</h2>
   <ul>
-      <?php foreach ($friends_favorite_games as $friend_favorite_game) : ?>
-          <li>
-              <?= $friend_favorite_game['friend_name'] ?> : <?= $friend_favorite_game['game_name'] ?>
-          </li>
-      <?php endforeach ?>
+    <?php foreach ($friends_favorite_games as $friend_favorite_game) : ?>
+      <li>
+        <?= $friend_favorite_game['friend_name'] ?> : <?= $friend_favorite_game['game_name'] ?>
+      </li>
+    <?php endforeach ?>
   </ul>
+</div>
       </main>
   <footer>
     <nav>
@@ -95,7 +99,6 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
         <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
         <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
-        <li><a href="#"> <i class="fas fa-cog"></i></a></li>
       </ul>
     </nav>
   </footer>

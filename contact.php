@@ -119,7 +119,7 @@ function updateUserInfo($user_id, $nom, $bio) {
         <label class="form-label">Image de profil :</label>
         <input type="file" id="image" name="image">
         <label class="form-label">Valider:</label>
-        <input type="submit" name="update_profile" value="Enregistrer les modifications">
+        <input type="submit" name="update_profile" value="Enregistrer">
     </form>
 </main>
 
@@ -184,7 +184,6 @@ if (isset($_POST['update_profile'])) {
       <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
       <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
       <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
-      <li><a href="#"><i class="fas fa-cog"></i></a></li>
     </ul>
     
   </nav>

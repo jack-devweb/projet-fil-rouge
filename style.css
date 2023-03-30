@@ -6,7 +6,7 @@ body {
   background-color: #000;
   line-height:1.6;
   font-size: 1.2rem;
-  color:#fff;
+  color: #fbfbfb;
   font-family:sans-serif;
 }
 * {
@@ -86,7 +86,7 @@ li {
   background-color: chartreuse;
 }
 
-/* Style pour le bouton personnalisÃ© */
+/* Style pour le bouton personnalisÃƒÆ’Ã‚Â© */
 .custom-button {
   display: inline-block;
   background-color: #071347;
@@ -122,7 +122,7 @@ li {
   /* Changer la couleur en #333 */
 }
 
-/* Style pour les articles de jeux vidÃƒÆ’Ã‚Â©o */
+/* Style pour les articles de jeux vidÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©o */
 .article {
   display: flex;
   flex-wrap: wrap;
@@ -326,6 +326,7 @@ a:-webkit-any-link {
   margin-top: 1em;
   font-size: px;
   /* color: yellow; */
+  border: 1px solid red;
 }
 
 .login-form img {
@@ -370,7 +371,7 @@ textarea {
   margin-bottom: 5x;
   font-size: 35px;
   border-radius: 10px;
-  width: 80%;
+  /* width: 80%; */
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -405,7 +406,7 @@ header a {
 }
 
 .grid-item img {
-  width: 100%;
+  width: 60%;
   height: 100%;
   object-fit: cover;
 }
@@ -489,7 +490,7 @@ header a {
   background-color: #f1f1f1;
 }
 
-/* Ajoutez d'autres classes pour d'autres utilisateurs si nÃƒÆ’Ã‚Â©cessaire */
+/* Ajoutez d'autres classes pour d'autres utilisateurs si nÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©cessaire */
 .user-img{
   width:110px;
   border-radius:50%;
@@ -501,7 +502,7 @@ header a {
   align-items: center;
 }
 .send-button {
-  z-index: 2; /* Ajout de la propriÃ©tÃ© z-index */
+  z-index: 2; /* Ajout de la propriÃƒÆ’Ã‚Â©tÃƒÆ’Ã‚Â© z-index */
 }
 .send-message-section {
   margin-top: 30px;
@@ -553,14 +554,15 @@ footer {
 footer {
   display: flex;
   justify-content: space-between;
-  background-color: #02182a;
+  background-color: #003055f1;
   color: #fff;
   height: 70px;
   position: fixed;
   bottom: 0;
   width: 100%;
   border-radius: 12px;
-  margin-left: 0; /* Ajout de cette ligne pour supprimer la marge à gauche */
+  margin-left: 0; /* Ajout de cette ligne pour supprimer la marge ÃƒÂ  gauche */
+  flex-direction: column;
 }
 footer nav ul {
   display: flex;
@@ -569,7 +571,7 @@ footer nav ul {
   margin-bottom:10px;
 }
 footer nav ul li {
-  margin: 0 17px 0px  15px; /* Ajustez la valeur pour modifier l'espacement entre les éléments */
+  margin: 0 17px 0px  15px; /* Ajustez la valeur pour modifier l'espacement entre les ÃƒÂ©lÃƒÂ©ments */
   /* margin-bottom: 34px; */
   margin-top: -11px;
 }
@@ -627,7 +629,7 @@ main {
   width: 68px;
   object-fit: cover; /* redimensionne l'image pour couvrir la zone */
 
-  /* Créez une bordure circulaire rouge */
+  /* CrÃƒÂ©ez une bordure circulaire rouge */
   border: 3px solid red;
   border-radius: 50%; /* arrondit les coins pour former un cercle */
 }
@@ -661,7 +663,7 @@ html, body {
   height:118px;
   object-fit: cover; /* redimensionne l'image pour couvrir la zone */
 
-  /* Créez une bordure circulaire rouge */
+  /* CrÃƒÂ©ez une bordure circulaire rouge */
   border: 3px solid red;
   border-radius: 100%; /* arrondit les coins pour former un cercle */
 }
@@ -669,8 +671,8 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 10vh; /* min-height permet de couvrir au moins la hauteur de la fenêtre du navigateur */
-  flex-direction: column; /* aligne les éléments à la verticale */
+  min-height: 10vh; /* min-height permet de couvrir au moins la hauteur de la fenÃƒÂªtre du navigateur */
+  flex-direction: column; /* aligne les ÃƒÂ©lÃƒÂ©ments ÃƒÂ  la verticale */
 }
 .user-profile h2{
   font-family: Stencil Std, fantasy	;
@@ -682,14 +684,14 @@ html, body {
 
 .bio-desc {
     border: 2px solid rgb(0, 255, 0);
-    box-shadow: 0 4px 8px rgba(192, 174, 174, 0.2); /* Ajout de l'ombre à la boîte */
+    box-shadow: 0 4px 8px rgb(192 174 174); /* Ajout de l'ombre ÃƒÂ  la boÃƒÂ®te */
     width: 80%;
-    padding: 10px; /* Ajout d'un espacement à l'intérieur du cadre */
-    word-wrap: break-word; /* Permet au texte de passer à la ligne s'il dépasse de la largeur du cadre */
+    padding: 10px; /* Ajout d'un espacement ÃƒÂ  l'intÃƒÂ©rieur du cadre */
+    word-wrap: break-word; /* Permet au texte de passer ÃƒÂ  la ligne s'il dÃƒÂ©passe de la largeur du cadre */
 }
 .jeux_prefere{
   border: 2px solid rgb(0, 255, 0);
-  box-shadow: 0 4px 8px rgba(242, 238, 238, 0.742); /* Ajout de l'ombre à la boîte */
+  box-shadow: 0 4px 8px rgba(242, 238, 238, 0.742); /* Ajout de l'ombre ÃƒÂ  la boÃƒÂ®te */
   width: 80%;
 }
 .form-label {
@@ -701,7 +703,7 @@ html, body {
   width: 68px;
   object-fit: cover; /* redimensionne l'image pour couvrir la zone */
 
-  /* Créez une bordure circulaire rouge */
+  /* CrÃƒÂ©ez une bordure circulaire rouge */
   border: 3px solid red;
   border-radius: 50%; /* arrondit les coins pour former un cercle */
 }
@@ -720,7 +722,7 @@ html, body {
 
 .view-profile:active {
   transform: translateY(5px);
-  box-shadow: 0px 0px 0px 0px #a29bfe;
+  box-shadow: 0px 0px 2px 2px #a29bfe;
 }
 .columns {
   display: flex;
@@ -737,8 +739,164 @@ html, body {
 }
 
 .profile-image {
-  width: 50px; /* Ajustez la largeur souhaitée */
-  height: 50px; /* Ajustez la hauteur souhaitée */
+  width: 50px; /* Ajustez la largeur souhaitÃƒÂ©e */
+  height: 50px; /* Ajustez la hauteur souhaitÃƒÂ©e */
   object-fit: cover; /* Gardez les proportions de l'image */
   border-radius: 50%; /* Rendre l'image de profil circulaire, si vous le souhaitez */
 }
+.article img {
+  max-width: 92vw;;
+}
+.detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.detail img{
+  width: 60%;
+}
+.detail h1 {
+  text-align: center;
+}
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contenu {
+  width: 80%;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.grid-item {
+  position: relative;
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(237, 228, 228, 0.774);
+  transition: transform 0.3s;
+}
+
+.grid-item a {
+  text-decoration: none;
+}
+
+.grid-item:hover img {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(246, 249, 247, 0.705);
+}
+.grid-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(255, 253, 253, 0.658);
+  transition: transform 0.3s;
+object-fit: cover;
+}
+header {
+  background-color: #002d50;
+  padding: 3rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.user-info span {
+  color: #FFF;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.user-info a {
+  text-decoration: none;
+  color: #FFF;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+main {
+  width: 80%;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #030050;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-label {
+  font-weight: bold;
+  text-align: right;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+input[type="file"] {
+  display: block;
+}
+
+input[type="submit"] {
+  display: block;
+  background-color: #4CAF50;
+  color: #49008e;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+input[type="submit"]:hover {
+  background-color: #3C9A48;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+}
+.ajouter_amis{
+  display: flex;
+  justify-content: center;
+}
+
+
+
+

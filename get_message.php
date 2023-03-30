@@ -20,6 +20,8 @@ $messages = getDiscussionMessages($discussion_id);
 // Convertir les messages en format JSON et les renvoyer en tant que réponse AJAX
 echo json_encode($messages);
 
+// Fonction pour récupérer les messages d'une discussion
+
 function getDiscussionMessages($discussion_id) {
     require_once('db.php');
     $db = new Db();

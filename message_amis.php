@@ -100,7 +100,6 @@ if (isset($_POST['send_message'])) {
         <li><a href="amis.php"><i class="fas fa-user"></i></a></li>
         <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
         <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
-        <li><a href="#"> <i class="fas fa-cog"></i></a></li>
       </ul>
     </nav>
   </footer>

@@ -211,29 +211,28 @@ function getNonFriends($user_id)
         <?php if (isset($connected_users)): ?>
             <h1>Utilisateurs connectés</h1>
             <div class="columns">
-                <div class="column">
-                    <h2>Amis</h2>
-                    <ul class="user-list">
-                        <?php
-                        foreach ($friends as $friend):
-                            ?>
-                            <?php if (count($friends) == 0): ?>
-                                <p>Aucun ami trouvé.</p>
-                            <?php endif; ?>
-                            <li>
-                                <a href="chat.php?user_id=<?php echo $friend['friend_id']; ?>">
-                                    <img src="uploads/<?php echo $friend['friend_image']; ?>" alt="Image ami"
-                                        class="profile-image">
-                                    <span>
-                                        <?php echo $friend['friend_name']; ?>
-                                    </span>
-                                </a>
-                                <a href="user_profile.php?user_id=<?php echo $friend['friend_id']; ?>"><button
-                                        class="view-profile">Voir le profil</button></a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
+            <div class="column">
+    <h2>Amis</h2>
+    <ul class="user-list">
+        <?php
+        foreach ($friends as $friend):
+            ?>
+            <?php if (count($friends) == 0): ?>
+                <p>Aucun ami trouvé.</p>
+            <?php endif; ?>
+            <li>
+                <a href="chat.php?user_id=<?php echo $friend['friend_id']; ?>">
+                <img src="uploads/<?php echo $friend['friend_image']; ?>" alt="Image ami" class="profile-image">
+                    <span>
+                        <?php echo $friend['friend_name']; ?>
+                    </span>
+                </a>
+                <a href="user_profile.php?user_id=<?php echo $friend['friend_id']; ?>"><button
+                        class="view-profile">Voir le profil</button></a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
                 <div class="column">
                     <h2>Non-Amis</h2>
                     <ul class="user-list">
@@ -256,17 +255,13 @@ function getNonFriends($user_id)
             </div>
         <?php else: ?>
             <div class="chat-window">
-                <div class="friend-info">
-                    <img src="uploads/<?php echo $friend['image']; ?>" alt="Image ami" class="profile-image">
-                    <span>
-                        <?php echo $friend_name; ?>
-                    </span>
-                </div>
+
 
                 <ul class="message-list">
                     <?php foreach ($messages as $message): ?>
                         <?php if ($message['id'] == $user_id): ?>
                             <li class="sent">
+                                <img src="uploads/<?php echo $user_image; ?>" alt="Image utilisateur" class="profile-image">
                                 <p>
                                     <?php echo $message['contenu']; ?>
                                 </p>
@@ -289,7 +284,9 @@ function getNonFriends($user_id)
                                 </div>
                             </li>
                         <?php endif; ?>
+
                     <?php endforeach; ?>
+
                 </ul>
 
                 <form class="send-message-form" action="" method="post">
@@ -306,7 +303,6 @@ function getNonFriends($user_id)
                 <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
                 <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
                 <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
-                <li><a href="#"><i class="fas fa-cog"></i></a></li>
             </ul>
 
         </nav>

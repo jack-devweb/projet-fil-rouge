@@ -2,12 +2,13 @@
 session_start();
 require_once 'config.php';
 require_once 'db.php';
+
 // Connexion à la base de données
 try {
   $db = new Db();
   $pdo = $db->getConnection();
   // Récupérer les sujets de discussion
-  $stmt = $pdo->prepare("SELECT * FROM news"); // Remplacez "sujets" par le nom de votre table de sujets
+  $stmt = $pdo->prepare("SELECT * FROM news ORDER BY date DESC");
   $stmt->execute();
   $sujets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -16,9 +17,6 @@ try {
 }
 ?>
 <!-- Code HTML pour afficher le bouton de déconnexion -->
-<form action="logout.php" method="post">
-  <button type="submit">Déconnexion</button>
-</form>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -34,64 +32,54 @@ try {
 </head>
 
 <body>
-
+  <header>
+  <form action="logout.php" method="post">
+  <button type="submit">Se deconnecter</button>
+</form>
+  </header>
   <h1>Forum de discussion</h1>
-
   <div class="article">
     <img src="images\jv2.jpg" alt="jeu">
     <div>
-      <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, illum? Nulla, necessitatibus velit. Totam
-        unde, eius sequi velit, ab saepe molestiae dolore accusamus nihil vitae deserunt, veritatis quaerat nemo
-        voluptas.</h2>
+      <h2>Bienvenue sur notre forum dédié aux passionnés de jeux vidéo de tous genres ! 
+        Ici, nous célébrons la diversité et la richesse du monde du gaming. 
+        Rejoignez notre communauté pour discuter des dernières nouveautés,
+         partager des astuces et des conseils, ou simplement échanger sur vos expériences de jeu.
+          Des jeux d'action et d'aventure aux jeux de stratégie, en passant par les RPG,
+           les jeux de sport et les jeux indépendants, nous couvrons tous les aspects du monde fascinant des jeux vidéo.
+            Alors, préparez-vous, détendez-vous et plongez dans les discussions avec d'autres passionnés partageant les mêmes intérêts !</p>
+
+</h2>
       <a href="nouveau_sujet.php">Créer un nouveau sujet de discussion</a>
     </div>
   </div>
-
-  <div class="article">
-    <img src="images\jv3.jpg" alt="jeu">
-    <div>
-      <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, illum? Nulla, necessitatibus velit. Totam
-        unde, eius sequi velit, ab saepe molestiae dolore accusamus nihil vitae deserunt, veritatis quaerat nemo
-        voluptas.</h2>
-      <a href="nouveau_sujet.php">Créer un nouveau sujet de discussion</a>
-    </div>
-  </div>
-
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque magni eum, deserunt quo est earum tempore, ipsum
-    error impedit amet dolorum. Modi tempore quaerat dignissimos excepturi. Recusandae vero laudantium alias?</p>
-
-  <div class="article">
-    <img src="images\jv1.jpg" alt="jeu">
-    <div>
-      <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, explicabo delectus amet expedita atque
-        quibusdam laudantium vel dolor ab quae consectetur nemo dignissimos quo nesciunt, omnis officia quis, saepe
-        voluptatibus?</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quas earum quo illum, mollitia laudantium
-        saepe praesentium vitae molestiae hic reiciendis nobis commodi, ex cum architecto ab aut assumenda ipsum.</p>
-    </div>
-  </div>
-  <footer>
-    <nav>
-      <ul>
-        <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
-        <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
-        <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
-        <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
-        <li><a href="#"> <i class="fas fa-cog"></i></a></li>
-      </ul>
-    </nav>
-  </footer>
-  <?php foreach ($sujets as $sujet) { ?>
-    <h3>
-      <?php echo $sujet['titre']; ?>
-    </h3>
-    <p>Date de création :
-      <?php echo $sujet['date']; ?>
-    </p>
-    <a href="discussion.php?id=<?php echo $sujet['id']; ?>">Voir la discussion</a>
-
-  <?php } ?>
-
-</body>
-
+    <?php foreach ($sujets as $sujet) { ?>
+      <div class="article">
+        <img src="<?php echo $sujet['image_path']; ?>" alt="Image du sujet">
+        <div>
+        </h2>
+          <p>
+            <?php echo $sujet['contenu']; ?>
+          </p>
+          <a href="discussion.php?id=<?php echo $sujet['id']; ?>">Voir la discussion</a>
+          <?php if ($_SESSION['user_id'] === $sujet['id_users']) { ?>
+            <form action="supprimer_sujet.php" method="post">
+              <input type="hidden" name="sujet_id" value="<?php echo $sujet['id']; ?>">
+              <button type="submit">Supprimer le sujet</button>
+            </form>
+          <?php } ?>
+        </div>
+      </div>
+    <?php } ?>
+    <footer>
+      <nav>
+        <ul>
+          <li><a href="forum.php"><i class="fas fa-home"></i></a></li>
+          <li><a href="contact.php"><i class="fas fa-user"></i></a></li>
+          <li><a href="game.php"><i class="fas fa-gamepad"></i></a></li>
+          <li><a href="chat.php"><i class="fas fa-envelope"></i></a></li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
 </html>
