@@ -50,7 +50,10 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
         <?php endif; ?>
 
         <form method="POST" class="login-form">
+        <div class="containeri">
             <img src="images/img-appli.png" alt="Image de l'application">
+        <div class="animated-text">Bienvenue</div>
+        </div>
             <label for="username">Nom d'utilisateur :</label>
             <input type="text" name="username" required>
             <label for="password">Mot de passe :</label>

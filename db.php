@@ -24,5 +24,13 @@ class Db {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getFriendRequestsReceived($user_id) {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare('SELECT * FROM friends WHERE friend_id = :user_id AND status = "en_attente"');
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

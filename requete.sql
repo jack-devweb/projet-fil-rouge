@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mer. 29 mars 2023 à 07:57
+-- Généré le : jeu. 06 avr. 2023 à 07:55
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.10
 
@@ -24,30 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `amis_utilisateur`
---
-
-CREATE TABLE `amis_utilisateur` (
-  `id` int NOT NULL,
-  `utilisateur_id` int NOT NULL,
-  `ami_id` int NOT NULL,
-  `statut` enum('en_attente','acceptee','rejetee') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `amis_utilisateur`
---
-
-INSERT INTO `amis_utilisateur` (`id`, `utilisateur_id`, `ami_id`, `statut`) VALUES
-(4, 38, 33, 'en_attente'),
-(5, 38, 34, 'en_attente'),
-(6, 38, 35, 'en_attente'),
-(7, 38, 36, 'en_attente'),
-(8, 38, 37, 'en_attente');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `appartient`
 --
 
@@ -55,7 +31,7 @@ CREATE TABLE `appartient` (
   `id` int NOT NULL,
   `user_id` int DEFAULT NULL,
   `id_game` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `appartient`
@@ -254,6 +230,29 @@ INSERT INTO `appartient` (`id`, `user_id`, `id_game`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `id_users` int NOT NULL,
+  `id_news` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `comments`
+--
+
+INSERT INTO `comments` (`id`, `content`, `date`, `id_users`, `id_news`) VALUES
+(1, 'magnifique', '2023-04-01 09:10:35', 35, 9),
+(2, 'Hello-world!!', '2023-04-01 15:27:24', 35, 6),
+(3, 'En tant que joueur de GTA 5, je peux dire que c\'est un jeu incroyablement amusant et addictif. La carte immense offre une multitude d\'activités, des missions principales passionnantes aux tâches secondaires amusantes comme le parachutisme, la course de rue ou le braquage de banque. Les graphismes sont magnifiques, avec une attention particulière aux détails dans chaque aspect de la ville et des personnages.\r\n\r\nLe jeu offre également une grande variété de véhicules, allant des voitures de sport aux avions et aux bateaux, chacun avec ses propres caractéristiques uniques. Les combats sont également bien conçus, offrant une gamme d\'armes et de tactiques différentes pour vaincre vos ennemis.\r\n\r\nL\'histoire est captivante, avec des personnages bien développés et une intrigue complexe qui vous tient en haleine jusqu\'à la fin. Le mode multijoueur est également très amusant, permettant aux joueurs de se connecter et de jouer avec des amis ou des inconnus dans un monde en constante évolution.\r\n\r\nEn somme, GTA 5 est un jeu qui mérite d\'être joué pour tout amateur de jeux vidéo, offrant des heures de divertissement et une expérience de jeu immersive.', '2023-04-01 21:31:47', 39, 5);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `discussions`
 --
 
@@ -261,7 +260,7 @@ CREATE TABLE `discussions` (
   `id` int UNSIGNED NOT NULL,
   `user1_id` int NOT NULL,
   `user2_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `discussions`
@@ -290,7 +289,20 @@ INSERT INTO `discussions` (`id`, `user1_id`, `user2_id`) VALUES
 (24, 35, 36),
 (25, 33, 35),
 (26, 38, 40),
-(27, 38, 43);
+(27, 38, 43),
+(28, 42, 34),
+(29, 42, 36),
+(30, 36, 39),
+(31, 35, 42),
+(32, 35, 39),
+(33, 35, 40),
+(34, 34, 39),
+(35, 39, 33),
+(36, 39, 38),
+(37, 39, 41),
+(38, 34, 40),
+(39, 34, 41),
+(40, 39, 37);
 
 -- --------------------------------------------------------
 
@@ -300,12 +312,12 @@ INSERT INTO `discussions` (`id`, `user1_id`, `user2_id`) VALUES
 
 CREATE TABLE `evenements` (
   `id` int NOT NULL,
-  `nom` varchar(50) NOT NULL,
+  `nom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `date_debut` datetime NOT NULL,
   `date_fin` datetime NOT NULL,
-  `description` text,
-  `lieu` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `description` text COLLATE utf8mb4_general_ci,
+  `lieu` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -317,7 +329,7 @@ CREATE TABLE `favorite_games` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
   `game_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `favorite_games`
@@ -329,7 +341,14 @@ INSERT INTO `favorite_games` (`id`, `user_id`, `game_id`) VALUES
 (18, 33, 7),
 (19, 35, 1),
 (20, 33, 10),
-(21, 38, 1);
+(21, 38, 1),
+(23, 34, 1),
+(24, 37, 6),
+(25, 35, 2),
+(26, 39, 1),
+(27, 39, 5),
+(28, 39, 2),
+(29, 37, 3);
 
 -- --------------------------------------------------------
 
@@ -340,48 +359,54 @@ INSERT INTO `favorite_games` (`id`, `user_id`, `game_id`) VALUES
 CREATE TABLE `friends` (
   `id` int NOT NULL,
   `user_id` int NOT NULL,
-  `statut` enum('en_attente','accepte','refuse') DEFAULT 'en_attente',
+  `statut` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `date_demande` datetime DEFAULT NULL,
   `friend_id` int NOT NULL DEFAULT '0',
-  `friend_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `friend_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `friends`
 --
 
 INSERT INTO `friends` (`id`, `user_id`, `statut`, `date_demande`, `friend_id`, `friend_name`) VALUES
-(44, 38, 'accepte', '2023-03-26 18:19:56', 34, 'Lina'),
-(45, 38, 'accepte', '2023-03-26 18:19:58', 35, 'Oxane'),
-(46, 38, 'accepte', '2023-03-26 18:20:01', 36, 'Thibault'),
-(47, 38, 'en_attente', '2023-03-26 18:20:03', 37, 'Julie'),
-(48, 33, 'en_attente', '2023-03-26 18:33:06', 38, 'Chris'),
-(49, 33, 'en_attente', '2023-03-26 18:33:07', 37, 'Julie'),
-(50, 33, 'accepte', '2023-03-26 18:33:08', 36, 'Thibault'),
-(53, 34, 'en_attente', '2023-03-26 18:57:12', 38, 'Chris'),
-(54, 34, 'en_attente', '2023-03-26 18:57:13', 37, 'Julie'),
-(55, 34, 'accepte', '2023-03-26 18:57:14', 36, 'Thibault'),
-(56, 34, 'accepte', '2023-03-26 18:57:15', 35, 'Oxane'),
-(57, 34, 'en_attente', '2023-03-26 18:57:16', 33, 'Arnaud'),
-(59, 35, 'accepte', '2023-03-26 18:59:30', 34, 'Lina'),
-(60, 35, 'accepte', '2023-03-26 18:59:32', 36, 'Thibault'),
-(61, 35, 'en_attente', '2023-03-26 18:59:34', 37, 'Julie'),
-(62, 35, 'en_attente', '2023-03-26 18:59:35', 38, 'Chris'),
-(63, 36, 'en_attente', '2023-03-26 20:51:28', 37, 'Julie'),
-(64, 36, 'en_attente', '2023-03-26 20:51:45', 38, 'Chris'),
-(65, 36, 'accepte', '2023-03-26 20:51:47', 35, 'Oxane'),
-(68, 43, 'en_attente', '2023-03-26 22:05:36', 33, 'Arnaud'),
-(69, 43, 'en_attente', '2023-03-26 22:05:40', 34, 'Lina'),
-(70, 43, 'en_attente', '2023-03-26 22:05:43', 40, 'lucas'),
-(71, 43, 'en_attente', '2023-03-26 22:05:45', 41, 'Camille'),
-(72, 35, 'en_attente', '2023-03-27 11:57:12', 33, 'Arnaud'),
-(74, 33, 'en_attente', '2023-03-27 12:15:32', 35, 'Oxane'),
-(75, 33, 'en_attente', '2023-03-27 14:09:58', 42, 'jules'),
-(76, 38, 'en_attente', '2023-03-27 23:03:55', 43, 'hugo'),
-(77, 38, 'en_attente', '2023-03-27 23:21:27', 33, 'Arnaud'),
-(78, 36, 'en_attente', '2023-03-28 10:15:59', 43, 'hugo'),
-(80, 34, 'en_attente', '2023-03-28 12:05:04', 39, 'john'),
-(81, 34, 'en_attente', '2023-03-28 12:05:26', 40, 'lucas');
+(130, 34, 'en_attente', '2023-04-01 19:13:18', 33, 'Arnaud'),
+(131, 34, 'en_attente', '2023-04-01 19:13:26', 36, 'Thibault'),
+(133, 36, 'en_attente', '2023-04-01 19:14:02', 35, 'Oxane'),
+(134, 36, 'en_attente', '2023-04-01 19:14:06', 38, 'Chris'),
+(135, 36, 'en_attente', '2023-04-01 19:14:14', 41, 'Camille'),
+(136, 36, 'en_attente', '2023-04-01 19:14:22', 43, 'hugo'),
+(138, 36, 'en_attente', '2023-04-01 19:19:50', 33, 'Arnaud'),
+(139, 33, 'en_attente', '2023-04-01 19:20:32', 36, 'Thibault'),
+(140, 33, 'en_attente', '2023-04-01 19:21:23', 34, 'Lina'),
+(141, 33, 'en_attente', '2023-04-01 20:15:37', 35, 'Oxane'),
+(142, 33, 'en_attente', '2023-04-01 20:44:10', 37, 'Julie'),
+(143, 33, 'attente', NULL, 38, ''),
+(144, 33, 'attente', NULL, 39, ''),
+(145, 33, 'en_attente', '2023-04-01 20:59:17', 41, 'Camille'),
+(146, 35, 'attente', NULL, 33, ''),
+(147, 35, 'attente', NULL, 36, ''),
+(148, 35, 'attente', NULL, 34, ''),
+(149, 34, 'attente', NULL, 35, ''),
+(150, 34, 'en_attente', '2023-04-01 21:01:45', 37, 'Julie'),
+(151, 34, 'en_attente', '2023-04-01 21:03:32', 38, 'Chris'),
+(152, 44, 'en_attente', '2023-04-01 21:05:03', 33, 'Arnaud'),
+(153, 33, 'en_attente', '2023-04-01 21:05:31', 44, 'nicolas'),
+(154, 44, 'en_attente', '2023-04-01 21:22:37', 37, 'Julie'),
+(155, 44, 'en_attente', '2023-04-01 21:22:46', 34, 'Lina'),
+(156, 34, 'en_attente', '2023-04-01 21:23:12', 39, 'john'),
+(157, 34, 'en_attente', '2023-04-01 21:23:16', 40, 'lucas'),
+(158, 34, 'en_attente', '2023-04-01 21:23:20', 41, 'Camille'),
+(159, 34, 'en_attente', '2023-04-01 21:23:23', 42, 'jules'),
+(160, 34, 'en_attente', '2023-04-01 21:23:27', 43, 'hugo'),
+(161, 34, 'en_attente', '2023-04-01 21:23:30', 44, 'nicolas'),
+(163, 39, 'en_attente', '2023-04-01 21:24:05', 34, 'Lina'),
+(164, 39, 'en_attente', '2023-04-01 22:12:36', 35, 'Oxane'),
+(166, 39, 'en_attente', '2023-04-01 22:18:32', 33, 'Arnaud'),
+(167, 39, 'en_attente', '2023-04-01 22:18:39', 42, 'jules'),
+(168, 39, 'en_attente', '2023-04-01 23:01:48', 37, 'Julie'),
+(171, 39, 'en_attente', '2023-04-01 23:41:39', 39, 'john'),
+(172, 37, 'en_attente', '2023-04-02 22:58:54', 33, 'Arnaud');
 
 -- --------------------------------------------------------
 
@@ -391,10 +416,10 @@ INSERT INTO `friends` (`id`, `user_id`, `statut`, `date_demande`, `friend_id`, `
 
 CREATE TABLE `game` (
   `id` int NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `description` text NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text COLLATE utf8mb4_general_ci NOT NULL,
   `annee_de_sortie` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `game`
@@ -420,27 +445,21 @@ INSERT INTO `game` (`id`, `name`, `description`, `annee_de_sortie`) VALUES
 
 CREATE TABLE `messages` (
   `id_message` int NOT NULL,
-  `contenu` text NOT NULL,
+  `contenu` text COLLATE utf8mb4_general_ci NOT NULL,
   `date` datetime NOT NULL,
   `id` int NOT NULL,
   `discussion_id` int NOT NULL,
-  `is_read` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `is_read` tinyint(1) NOT NULL DEFAULT '0',
+  `auteur` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `messages`
 --
 
-INSERT INTO `messages` (`id_message`, `contenu`, `date`, `id`, `discussion_id`, `is_read`) VALUES
-(320, 'bonjour ', '2023-03-24 01:25:56', 34, 7, 0),
-(321, '', '2023-03-24 01:26:09', 34, 7, 0),
-(322, 'aaa', '2023-03-24 01:27:30', 34, 6, 0),
-(323, 'aaaaaaaa', '2023-03-24 01:28:03', 34, 5, 0),
-(324, 'salut ', '2023-03-24 13:20:34', 34, 5, 0),
-(325, 'gfgh', '2023-03-24 13:22:42', 34, 5, 0),
-(326, 'salut', '2023-03-24 13:24:07', 36, 9, 0),
-(327, 'bonjour comment ca va', '2023-03-25 11:47:49', 34, 5, 0),
-(328, 'OUI CA VA ET TOI', '2023-03-25 11:49:34', 33, 5, 0);
+INSERT INTO `messages` (`id_message`, `contenu`, `date`, `id`, `discussion_id`, `is_read`, `auteur`) VALUES
+(338, 'c est super tu as enfin trouvé la solution ', '2023-04-01 22:19:25', 39, 40, 0, NULL),
+(339, '\"Qu\'avez-vous fait d\'intéressant récemment ?\" \"Avez-vous vu le dernier film qui est sorti ?\" \"Quel est votre endroit préféré pour passer vos vacances ?\"', '2023-04-01 23:34:43', 39, 30, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -450,21 +469,22 @@ INSERT INTO `messages` (`id_message`, `contenu`, `date`, `id`, `discussion_id`, 
 
 CREATE TABLE `news` (
   `id` int NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `contenu` text NOT NULL,
+  `title` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `contenu` text COLLATE utf8mb4_general_ci NOT NULL,
   `date` datetime NOT NULL,
   `id_users` int NOT NULL,
-  `titre` varchar(255) DEFAULT NULL,
-  `image_path` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `titre` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `image_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `news`
 --
 
 INSERT INTO `news` (`id`, `title`, `contenu`, `date`, `id_users`, `titre`, `image_path`) VALUES
-(1, 'aaa', 'aaaa', '2023-03-28 14:55:58', 34, NULL, ''),
-(2, 'aaa', 'aaa', '2023-03-28 14:56:10', 34, NULL, 'images/6423000aabf84.jpg');
+(5, 'a propos de gta VI', 'Grand Theft Auto VI, le nouvel opus tant attendu de la série à succès de Rockstar Games, est enfin arrivé ! Dans cette nouvelle aventure, les joueurs exploreront un monde ouvert massif et détaillé, avec des personnages intrigants, des missions passionnantes et des rebondissements inattendus. Plongez dans l\'atmosphère unique de GTA VI, où vous découvrirez des environnements urbains et ruraux, ainsi qu\'une multitude d\'activités et de secrets à dévoiler. Que vous soyez un vétéran de la série ou un nouveau venu, rejoignez-nous pour discuter de ce chef-d\'œuvre du monde du gaming, partager des astuces, des conseils et échanger sur vos expériences dans l\'univers de GTA VI.', '2023-03-29 09:17:19', 38, NULL, 'images/6424021fc8482.png'),
+(6, 'The Legend of Zelda: Tears of the Kingdom', '\"The Legend of Zelda: Tears of the Kingdom\" est un jeu vidéo d\'aventure et de rôle développé par des fans de la série \"The Legend of Zelda\". Le jeu a été créé avec le moteur de jeu \"RPG Maker VX Ace\" et est disponible gratuitement en téléchargement sur des sites de fans dédiés à la série.\r\n\r\n\r\nDans ce jeu, le joueur incarne Link, le héros de la série, qui doit sauver le royaume d\'Hyrule de la menace d\'un nouvel ennemi maléfique. Le gameplay est similaire à celui des autres jeux \"The Legend of Zelda\", avec des énigmes à résoudre, des donjons à explorer et des ennemis à combattre.\r\n\r\n\r\nL\'histoire de \"Tears of the Kingdom\" est originale et se déroule après les événements du jeu \"The Legend of Zelda: Ocarina of Time\". Link doit découvrir pourquoi les larmes de la princesse Zelda ont mystérieusement disparu et comment il peut aider à restaurer l\'équilibre dans le royaume.', '2023-03-29 15:59:02', 35, NULL, 'images/64246046c65d0.jpg'),
+(9, 'hello world', 'hello', '2023-03-31 13:33:18', 37, NULL, 'images/6426e11e9193a.JPG');
 
 -- --------------------------------------------------------
 
@@ -476,7 +496,7 @@ CREATE TABLE `participe` (
   `id` int NOT NULL,
   `id_evenement` int NOT NULL,
   `id_utilisateur` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -487,7 +507,7 @@ CREATE TABLE `participe` (
 CREATE TABLE `possede` (
   `id` int NOT NULL,
   `id_game` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -497,8 +517,8 @@ CREATE TABLE `possede` (
 
 CREATE TABLE `type_jeu` (
   `id` int NOT NULL,
-  `nom` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `nom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `type_jeu`
@@ -517,16 +537,16 @@ INSERT INTO `type_jeu` (`id`, `nom`) VALUES
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `nom` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `nom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `date` date NOT NULL,
-  `bio` text NOT NULL,
-  `jeux_favoris` varchar(100) NOT NULL,
+  `bio` text COLLATE utf8mb4_general_ci NOT NULL,
+  `jeux_favoris` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `est_connecte` tinyint(1) NOT NULL DEFAULT '1',
   `last_active` int NOT NULL DEFAULT '0',
-  `image` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `users`
@@ -534,34 +554,35 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `nom`, `password`, `email`, `date`, `bio`, `jeux_favoris`, `est_connecte`, `last_active`, `image`) VALUES
 (33, 'Arnaud', 'aaa', 'AAA@AAA.AA', '2023-03-23', 'Arnaud, passionné de jeux vidéo depuis l\'enfance, j\'ai grandi en explorant des mondes virtuels et en relevant des défis épiques. ', 'pc', 1, 0, '2023-03-23-44.user-307993_640.png'),
-(34, 'Lina', 'aaa', 'bbb@bbb.bb', '2023-03-23', 'Je suis une fan inconditionnelle de jeux d\'aventure et de plateforme. J\'adore explorer des univers colorés et captivants, et je m\'épanouis en résolvant des énigmes complexes.', 'xbox', 1, 0, NULL),
-(35, 'Oxane', 'aaa', 'bbb@bb.bb', '2023-03-23', 'Je me considère comme une adepte des jeux multijoueurs en ligne, principalement des FPS et des MOBA. Rien ne me plaît plus que de former des équipes avec mes amis et de relever ensemble des défis compétitifs.', 'pc', 1, 0, '2023-03-23-39.user-310807_640.png'),
-(36, 'Thibault', 'aaa', 'vvv@vvv.vv', '2023-03-24', ' Passionné de jeux de stratégie et de simulation, je passe des heures à bâtir des empires et à gérer des ressources. J\'aime échanger des astuces avec d\'autres joueurs pour améliorer mes compétences.', 'xbox,pc', 1, 0, '2023-03-24-31.user-310807_640.png'),
-(37, 'Julie', 'aaa', 'aaa@aa.aa', '2023-03-25', '\"Salut ! Je m\'appelle julie, et je suis un passionnée de jeux vidéo depuis mon plus jeune âge. J\'ai grandi en explorant les mondes fantastiques de Zelda et en affrontant des adversaires redoutables dans Street Fighter. Aujourd\'hui, je suis une joueuse assidue de jeux en ligne compétitifs tels que Fortnite et Overwatch,', 'pc', 1, 0, '2023-03-25-54.avatar-1606916_640.png'),
+(34, 'Lina', 'aaa', 'bbb@bbb.bb', '2023-03-23', 'Je suis une fan inconditionnelle de jeux d\'aventure et de plateforme. J\'adore explorer des univers colorés et captivants, et je m\'épanouis en résolvant des énigmes complexes.', 'xbox', 1, 0, '64258b65d01d2.png'),
+(35, 'Oxane', 'aaa', 'bbb@bb.bb', '2023-03-23', 'Je me considère comme une adepte des jeux multijoueurs en ligne, principalement des FPS et des MOBA. Rien ne me plaît plus que de former des équipes avec mes amis et de relever ensemble des défis compétitifs.', 'pc', 1, 0, '64259c935f801.png'),
+(36, 'Thibault', 'aaa', 'vvv@vvv.vv', '2023-03-24', ' Passionné de jeux de stratégie et de simulation, je passe des heures à bâtir des empires et à gérer des ressources. J\'aime échanger des astuces avec d\'autres joueurs pour améliorer mes compétences.', 'xbox,pc', 1, 0, '64259c4ab5894.png'),
+(37, 'julie', 'aaa', 'aaa@aa.aa', '2023-03-25', '\"Salut ! Je m\'appelle julie, et je suis un passionnée de jeux vidéo depuis mon plus jeune âge. J\'ai grandi en explorant les mondes fantastiques de Zelda et en affrontant des adversaires redoutables dans Street Fighter. Aujourd\'hui, je suis une joueuse assidue de jeux en ligne compétitifs tels que Fortnite et Overwatch,', 'pc', 1, 0, '6429f7845f3e9.png'),
 (38, 'Chris', 'aaa', 'aaa@aaa.aa', '2023-03-25', 'Passionné de jeux de stratégie et de simulation, je passe des heures à bâtir des empires et à gérer des ressources. J\'aime échanger des astuces avec d\'autres joueurs pour améliorer mes compétences.', 'pc', 1, 0, '641f87ce12039.png'),
-(39, 'john', 'aaa', 'john@jim.com', '2023-03-26', 'Passionné de jeux de course et de sport, je suis toujours à la recherche de nouveaux défis à relever avec mes amis.', 'playstation', 1, 0, '2023-03-26-56.profil.png'),
+(39, 'john', 'aaa', 'john@jim.com', '2023-03-26', 'Passionné de jeux de course et de sport, je suis toujours à la recherche de nouveaux défis à relever avec mes amis.', 'playstation', 1, 0, '6428a50bf3da8.jpg'),
 (40, 'lucas', 'aaa', 'luca@gmail.com', '2023-03-26', 'J\\\'adore les jeux de stratégie et les jeux de cartes. Je suis toujours prêt pour un bon duel entre amis.', 'pc', 1, 0, '2023-03-26-21.homme-daffaire (1).png'),
 (41, 'Camille', 'aaa', 'camille@gmail.com', '2023-03-26', 'Fan de jeux d\\\'action et de plateforme, je suis constamment à la recherche de nouveaux défis et de records à battre.', 'nintendo switch', 1, 0, '2023-03-26-49.utilisateur (1).png'),
-(42, 'jules', 'aaa', 'jules@gmail.com', '2023-03-26', 'Je suis un joueur occasionnel qui aime les jeux de puzzle et de réflexion. Les jeux de société en ligne sont également mes favoris', 'xbox', 1, 0, NULL),
-(43, 'hugo', 'aaa', 'hugho@gmail.com', '2023-03-26', 'Je suis un fan de jeux de tir à la première personne et de jeux d\\\'action. J\\\'aime me plonger dans des univers futuristes et réaliser des exploits héroïques.', 'xbox', 1, 0, '2023-03-26-00.homme.png');
+(42, 'jules', 'aaa', 'jules@gmail.com', '2023-03-26', 'Je suis un joueur occasionnel qui aime les jeux de puzzle et de réflexion. Les jeux de société en ligne sont également mes favoris', 'xbox', 1, 0, '64258bac90711.png'),
+(43, 'hugo', 'aaa', 'hugho@gmail.com', '2023-03-26', 'Je suis un fan de jeux de tir à la première personne et de jeux d\\\'action. J\\\'aime me plonger dans des univers futuristes et réaliser des exploits héroïques.', 'xbox', 1, 0, '2023-03-26-00.homme.png'),
+(44, 'nicolas', 'aaa', 'nicolas@nicolas.ni', '2023-04-01', 'hello_world !', 'xbox', 1, 0, '2023-04-01-53.homme (1).png');
 
 --
 -- Index pour les tables déchargées
 --
 
 --
--- Index pour la table `amis_utilisateur`
---
-ALTER TABLE `amis_utilisateur`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_utilisateur_idx` (`utilisateur_id`),
-  ADD KEY `fk_ami_idx` (`ami_id`);
-
---
 -- Index pour la table `appartient`
 --
 ALTER TABLE `appartient`
   ADD KEY `id` (`id`);
+
+--
+-- Index pour la table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `comments_users_FK` (`id_users`),
+  ADD KEY `comments_news_FK` (`id_news`);
 
 --
 -- Index pour la table `discussions`
@@ -641,22 +662,22 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT pour la table `amis_utilisateur`
---
-ALTER TABLE `amis_utilisateur`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
 -- AUTO_INCREMENT pour la table `appartient`
 --
 ALTER TABLE `appartient`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
+-- AUTO_INCREMENT pour la table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT pour la table `discussions`
 --
 ALTER TABLE `discussions`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT pour la table `evenements`
@@ -668,25 +689,25 @@ ALTER TABLE `evenements`
 -- AUTO_INCREMENT pour la table `favorite_games`
 --
 ALTER TABLE `favorite_games`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT pour la table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 
 --
 -- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id_message` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=329;
+  MODIFY `id_message` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=340;
 
 --
 -- AUTO_INCREMENT pour la table `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `type_jeu`
@@ -698,18 +719,18 @@ ALTER TABLE `type_jeu`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `amis_utilisateur`
+-- Contraintes pour la table `comments`
 --
-ALTER TABLE `amis_utilisateur`
-  ADD CONSTRAINT `fk_ami` FOREIGN KEY (`ami_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_utilisateur` FOREIGN KEY (`utilisateur_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_news_FK` FOREIGN KEY (`id_news`) REFERENCES `news` (`id`),
+  ADD CONSTRAINT `comments_users_FK` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`);
 
 --
 -- Contraintes pour la table `favorite_games`

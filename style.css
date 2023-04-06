@@ -3,14 +3,23 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   background-color: #000;
   line-height:1.6;
   font-size: 1.2rem;
   color: #fbfbfb;
   font-family:sans-serif;
+  min-height: 100vh;
 }
 * {
   box-sizing:border-box
+}
+main {
+  flex: 1;
+  min-height: calc(100vh - 100px); /* Ajustez cette valeur en fonction de la hauteur de votre header et footer */
+  overflow-y: auto;
+  margin-bottom: 80px; /* Ajustez cette valeur en fonction de la hauteur de votre footer */
 }
 .welcome {
   color: white;
@@ -86,7 +95,7 @@ li {
   background-color: chartreuse;
 }
 
-/* Style pour le bouton personnalisÃƒÆ’Ã‚Â© */
+/* Style pour le bouton personnalisÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© */
 .custom-button {
   display: inline-block;
   background-color: #071347;
@@ -122,7 +131,7 @@ li {
   /* Changer la couleur en #333 */
 }
 
-/* Style pour les articles de jeux vidÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©o */
+/* Style pour les articles de jeux vidÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©o */
 .article {
   display: flex;
   flex-wrap: wrap;
@@ -490,7 +499,7 @@ header a {
   background-color: #f1f1f1;
 }
 
-/* Ajoutez d'autres classes pour d'autres utilisateurs si nÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©cessaire */
+/* Ajoutez d'autres classes pour d'autres utilisateurs si nÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©cessaire */
 .user-img{
   width:110px;
   border-radius:50%;
@@ -502,7 +511,7 @@ header a {
   align-items: center;
 }
 .send-button {
-  z-index: 2; /* Ajout de la propriÃƒÆ’Ã‚Â©tÃƒÆ’Ã‚Â© z-index */
+  z-index: 2; /* Ajout de la propriÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© z-index */
 }
 .send-message-section {
   margin-top: 30px;
@@ -534,8 +543,12 @@ header a {
 footer {
   position: fixed;
   z-index: 2;
+  bottom: 0;
+  width: 100%;
 }
-
+.discussion-container {
+  padding-bottom: 10px; /* Ajustez cette valeur en fonction de la hauteur de votre footer */
+}
 .send-message-section {
   /* position: absolute; */
   bottom: 0;
@@ -561,7 +574,7 @@ footer {
   bottom: 0;
   width: 100%;
   border-radius: 12px;
-  margin-left: 0; /* Ajout de cette ligne pour supprimer la marge ÃƒÂ  gauche */
+  margin-left: 0; /* Ajout de cette ligne pour supprimer la marge ÃƒÆ’Ã‚Â  gauche */
   flex-direction: column;
 }
 footer nav ul {
@@ -571,7 +584,7 @@ footer nav ul {
   margin-bottom:10px;
 }
 footer nav ul li {
-  margin: 0 17px 0px  15px; /* Ajustez la valeur pour modifier l'espacement entre les ÃƒÂ©lÃƒÂ©ments */
+  margin: 0 17px 0px  15px; /* Ajustez la valeur pour modifier l'espacement entre les ÃƒÆ’Ã‚Â©lÃƒÆ’Ã‚Â©ments */
   /* margin-bottom: 34px; */
   margin-top: -11px;
 }
@@ -626,12 +639,12 @@ main {
   text-align:center
 }
 .user-list img{
-  width: 68px;
+  width: 100%;
   object-fit: cover; /* redimensionne l'image pour couvrir la zone */
 
-  /* CrÃƒÂ©ez une bordure circulaire rouge */
-  border: 3px solid red;
-  border-radius: 50%; /* arrondit les coins pour former un cercle */
+  /* CrÃƒÆ’Ã‚Â©ez une bordure circulaire rouge */
+  border: -7px solid red;
+   /* arrondit les coins pour former un cercle */
 }
 
 .user-info{
@@ -663,7 +676,7 @@ html, body {
   height:118px;
   object-fit: cover; /* redimensionne l'image pour couvrir la zone */
 
-  /* CrÃƒÂ©ez une bordure circulaire rouge */
+  /* CrÃƒÆ’Ã‚Â©ez une bordure circulaire rouge */
   border: 3px solid red;
   border-radius: 100%; /* arrondit les coins pour former un cercle */
 }
@@ -671,8 +684,8 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 10vh; /* min-height permet de couvrir au moins la hauteur de la fenÃƒÂªtre du navigateur */
-  flex-direction: column; /* aligne les ÃƒÂ©lÃƒÂ©ments ÃƒÂ  la verticale */
+  min-height: 10vh; /* min-height permet de couvrir au moins la hauteur de la fenÃƒÆ’Ã‚Âªtre du navigateur */
+  flex-direction: column; /* aligne les ÃƒÆ’Ã‚Â©lÃƒÆ’Ã‚Â©ments ÃƒÆ’Ã‚Â  la verticale */
 }
 .user-profile h2{
   font-family: Stencil Std, fantasy	;
@@ -684,14 +697,14 @@ html, body {
 
 .bio-desc {
     border: 2px solid rgb(0, 255, 0);
-    box-shadow: 0 4px 8px rgb(192 174 174); /* Ajout de l'ombre ÃƒÂ  la boÃƒÂ®te */
+    box-shadow: 0 4px 8px rgb(192 174 174); /* Ajout de l'ombre ÃƒÆ’Ã‚Â  la boÃƒÆ’Ã‚Â®te */
     width: 80%;
-    padding: 10px; /* Ajout d'un espacement ÃƒÂ  l'intÃƒÂ©rieur du cadre */
-    word-wrap: break-word; /* Permet au texte de passer ÃƒÂ  la ligne s'il dÃƒÂ©passe de la largeur du cadre */
+    padding: 10px; /* Ajout d'un espacement ÃƒÆ’Ã‚Â  l'intÃƒÆ’Ã‚Â©rieur du cadre */
+    word-wrap: break-word; /* Permet au texte de passer ÃƒÆ’Ã‚Â  la ligne s'il dÃƒÆ’Ã‚Â©passe de la largeur du cadre */
 }
 .jeux_prefere{
   border: 2px solid rgb(0, 255, 0);
-  box-shadow: 0 4px 8px rgba(242, 238, 238, 0.742); /* Ajout de l'ombre ÃƒÂ  la boÃƒÂ®te */
+  box-shadow: 0 4px 8px rgba(242, 238, 238, 0.742); /* Ajout de l'ombre ÃƒÆ’Ã‚Â  la boÃƒÆ’Ã‚Â®te */
   width: 80%;
 }
 .form-label {
@@ -703,7 +716,7 @@ html, body {
   width: 68px;
   object-fit: cover; /* redimensionne l'image pour couvrir la zone */
 
-  /* CrÃƒÂ©ez une bordure circulaire rouge */
+  /* CrÃƒÆ’Ã‚Â©ez une bordure circulaire rouge */
   border: 3px solid red;
   border-radius: 50%; /* arrondit les coins pour former un cercle */
 }
@@ -737,11 +750,14 @@ html, body {
 .column:last-child {
   margin-right: 0;
 }
+.column h2{
+  text-align:center;
+}
 
+.columns img{
+  align-items: center;
+}
 .profile-image {
-  width: 50px; /* Ajustez la largeur souhaitÃƒÂ©e */
-  height: 50px; /* Ajustez la hauteur souhaitÃƒÂ©e */
-  object-fit: cover; /* Gardez les proportions de l'image */
   border-radius: 50%; /* Rendre l'image de profil circulaire, si vous le souhaitez */
 }
 .article img {
@@ -751,11 +767,16 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-content: center;
 }
 .detail img{
   width: 60%;
+  box-shadow:0 4px 0 #00ecff, 0 -4px 0 #ff4045;
 }
 .detail h1 {
+  text-align: center;
+}
+.detail p{
   text-align: center;
 }
 .centered-content {
@@ -765,9 +786,12 @@ html, body {
 }
 
 .contenu {
+  display: flex;
   width: 80%;
   margin: 0 auto;
   padding: 2rem;
+  align-items: center;
+  flex-direction: column;
 }
 
 h1 {
@@ -779,10 +803,6 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
-}
-
-.grid-item {
-  position: relative;
 }
 
 .grid-item img {
@@ -808,13 +828,6 @@ h1 {
   box-shadow: 0 4px 6px rgba(255, 253, 253, 0.658);
   transition: transform 0.3s;
 object-fit: cover;
-}
-header {
-  background-color: #002d50;
-  padding: 3rem;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }
 
 .user-info {
@@ -896,7 +909,159 @@ nav ul {
   display: flex;
   justify-content: center;
 }
+/* Article */
+.article {
+  display: flex;
+  margin: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1em;
+  max-width: 800px;
+}
 
+.article img {
+  max-width: 200px;
+  margin-right: 1em;
+}
 
+.article h2 {
+  font-size: 1.2em;
+  margin: 0;
+}
 
+.article p {
+  margin: 0.5em 0;
+  line-height: 1.5;
+}
 
+.article a {
+  text-decoration: none;
+  background-color: #333;
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 1em;
+}
+
+.article a:hover {
+  background-color: #444;
+}
+
+/* Formulaire de rÃ©ponse */
+#reponse-form {
+  margin: 1em;
+}
+
+#reponse-form label {
+  font-size: 1.2em;
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+#reponse-form textarea {
+  width: 100%;
+  height: 100px;
+  font-size: 1.2em;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 0.5em;
+}
+
+#reponse-form input[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+#reponse-form input[type="submit"]:hover {
+  background-color: #444;
+}
+
+.discussion-container {
+  max-width: 100%;
+  background-color: red;
+  margin-top: 150;
+  margin-top: 150px;
+}
+.discussion-container img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  min-height: 133px;
+}
+main {
+  flex: 1;
+  min-height: calc(100vh - 100px);
+  overflow-y: visible;
+  margin-bottom: 80px;
+}
+header {
+  background-color: #002d50;
+  padding: 3rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: fixed;
+  height: 11vh;
+  width: 100vw;
+}
+.containeri {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 75%; /* Ajustez cette valeur pour modifier le ratio de l'image */
+  overflow: hidden;
+}
+
+.containeri img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: zoomBackground 5s ease-in-out infinite;
+}
+
+.containeri .animated-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 55px;
+  color: white;
+  text-align: center;
+  opacity: 0;
+
+  /* Ajout d'un contour jaune au texte */
+  text-shadow: 2px 0 rgb(0, 0, 0), -2px 0 rgb(0, 0, 0), 0 2px rgb(0, 0, 0), 0 -2px rgb(0, 0, 0);
+
+  /* Animation spirale et zoom */
+animation: spiralZoom 5s ease-in-out infinite;
+}
+@keyframes zoomBackground {
+  0%, 100% {
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.5);
+  }
+}
+
+@keyframes spiralZoom {
+  0% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+  50% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(0.5) rotate(1080deg);
+  }
+  100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1) rotate(360deg);
+  }
+}

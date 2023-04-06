@@ -37,6 +37,8 @@ try {
   <button type="submit">Se deconnecter</button>
 </form>
   </header>
+  <main>
+  <div class="discussion-container">
   <h1>Forum de discussion</h1>
   <div class="article">
     <img src="images\jv2.jpg" alt="jeu">
@@ -71,6 +73,8 @@ try {
         </div>
       </div>
     <?php } ?>
+          </div>
+          </main>
     <footer>
       <nav>
         <ul>

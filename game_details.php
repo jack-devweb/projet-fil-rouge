@@ -59,7 +59,6 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contacts</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="custom.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
         integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/1z8SoEvPzUHBzIOAU5w6gA2Y7rUp6UJLl0rJ6+" crossorigin="anonymous" />
@@ -68,7 +67,13 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
         integrity="sha512-**************" crossorigin="anonymous" />
 </head>
 <body>
+<header>
+  <form action="logout.php" method="post">
+  <button type="submit">Se deconnecter</button>
+</form>
+  </header>
     <main>
+    <div class="discussion-container">
         <div class="detail">
   <h1><?= $game['name'] ?></h1>
   <img src="<?= 'images/' . $game['name'] . '.png' ?>" alt="<?= $game['description'] ?>">
@@ -80,7 +85,6 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <form method="post">
     <input type="hidden" name="game_id" value="<?= $game_id ?>">
     <button type="submit" name="toggle_favorite"><?= in_array($game_id, $favorite_games_ids) ? "Supprimer des favoris" : "Ajouter aux favoris" ?></button>
-    <a href="game.php">Retour à la liste des jeux</a>
   </form>
   <h2>Jeux favoris des amis</h2>
   <ul>
@@ -91,6 +95,7 @@ $friends_favorite_games = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endforeach ?>
   </ul>
 </div>
+    </div>
       </main>
   <footer>
     <nav>

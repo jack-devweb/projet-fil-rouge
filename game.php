@@ -43,6 +43,8 @@ $games = $query->fetchAll(PDO::FETCH_ASSOC);
   <button type="submit">Se deconnecter</button>
 </form>
   </header>
+  <main>
+  <div class="discussion-container">
 <div class="contenu">
     <h1>Mes jeux</h1>
     <div class="grid">
@@ -58,6 +60,7 @@ $games = $query->fetchAll(PDO::FETCH_ASSOC);
       <?php endforeach ?>
     </div>
   </div>
+      </main>
   <footer>
     <nav>
       <ul>

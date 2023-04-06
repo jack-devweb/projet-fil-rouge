@@ -154,19 +154,19 @@ function insertMessage($message, $user_id, $discussion_id)
     $stmt->bindParam(':discussion_id', $discussion_id);
     $stmt->execute();
 }
-
 function getFriends($user_id)
 {
     require_once('db.php');
     $db = new Db();
     $conn = $db->getConnection();
-
-    $stmt = $conn->prepare('SELECT users.id AS friend_id, users.nom AS friend_name, users.image AS friend_image FROM friends JOIN users ON friends.friend_id = users.id WHERE friends.user_id = :user_id AND friends.statut = "accepte"');
+    $stmt = $conn->prepare('SELECT users.id AS friend_id, users.nom AS friend_name, users.image AS friend_image, friends.statut AS friend_statut FROM friends JOIN users ON friends.friend_id = users.id WHERE friends.user_id = :user_id');
     $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 }
+
 
 function getNonFriends($user_id)
 {
@@ -179,6 +179,21 @@ function getNonFriends($user_id)
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+function addFriend($user_id, $friend_id)
+{
+    require_once('db.php');
+    $db = new Db();
+    $conn = $db->getConnection();
+
+    $stmt = $conn->prepare('INSERT INTO friends (user_id, friend_id, statut) VALUES (:user_id, :friend_id, :statut)');
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':friend_id', $friend_id);
+    $stmt->bindValue(':statut', 'en attente');
+    $stmt->execute();
+
+    // Actualiser la liste d'amis
+    $_SESSION['friends'] = getFriends($user_id);
 }
 
 ?>
@@ -208,93 +223,101 @@ function getNonFriends($user_id)
         </div>
     </header>
     <main>
-        <?php if (isset($connected_users)): ?>
-            <h1>Utilisateurs connectés</h1>
-            <div class="columns">
-            <div class="column">
-    <h2>Amis</h2>
-    <ul class="user-list">
-        <?php
-        foreach ($friends as $friend):
-            ?>
-            <?php if (count($friends) == 0): ?>
-                <p>Aucun ami trouvé.</p>
-            <?php endif; ?>
-            <li>
-                <a href="chat.php?user_id=<?php echo $friend['friend_id']; ?>">
-                <img src="uploads/<?php echo $friend['friend_image']; ?>" alt="Image ami" class="profile-image">
-                    <span>
-                        <?php echo $friend['friend_name']; ?>
-                    </span>
-                </a>
-                <a href="user_profile.php?user_id=<?php echo $friend['friend_id']; ?>"><button
-                        class="view-profile">Voir le profil</button></a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</div>
-                <div class="column">
-                    <h2>Non-Amis</h2>
-                    <ul class="user-list">
-                        <?php foreach ($non_friends as $non_friend):
-                            ?>
-                            <li>
-                                <a href="chat.php?user_id=<?php echo $non_friend['id']; ?>">
-                                    <img src="uploads/<?php echo $non_friend['image']; ?>" alt="Image non-ami"
-                                        class="profile-image">
-                                    <span>
-                                        <?php echo $non_friend['nom']; ?>
-                                    </span>
-                                </a>
-                                <a href="user_profile.php?user_id=<?php echo $non_friend['id']; ?>"><button
-                                        class="view-profile">Voir le profil</button></a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
+        <div class="discussion-container">
+            <?php if (isset($connected_users)): ?>
+                <h1>Utilisateurs connectés</h1>
+                <div class="columns">
+                    <div class="column">
+                        <h2>Amis</h2>
+                        <ul class="user-list">
+                            <?php
+                            foreach ($friends as $friend):
+                                ?>
+                                <?php if (count($friends) == 0): ?>
+                                    <p>Aucun ami trouvé.</p>
+                                <?php endif; ?>
+                                <li>
+                                    <a href="chat.php?user_id=<?php echo $friend['friend_id']; ?>">
+                                        <img src="uploads/<?php echo $friend['friend_image']; ?>" alt="Image ami"
+                                            class="profile-image">
+                                        <span>
+                                            <?php echo $friend['friend_name']; ?>
+                                        </span>
+                                    </a>
+                                    <?php if (isset($friend['statut']) && $friend['statut'] == "attente"): ?>
+                                        <span class="friend-status">En attente</span>
+                                    <?php endif; ?>
+                                    <a href="user_profile.php?user_id=<?php echo $friend['friend_id']; ?>"><button
+                                            class="view-profile">Voir le profil</button></a>
+                                </li>
+                            <?php endforeach; ?>
+
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h2>Non-Amis</h2>
+                        <ul class="user-list">
+                            <?php foreach ($non_friends as $non_friend):
+                                ?>
+                                <li>
+                                    <a href="chat.php?user_id=<?php echo $non_friend['id']; ?>">
+                                        <img src="uploads/<?php echo $non_friend['image']; ?>" alt="Image non-ami"
+                                            class="profile-image">
+                                        <span>
+                                            <?php echo $non_friend['nom']; ?>
+                                        </span>
+                                    </a>
+                                    <a href="user_profile.php?user_id=<?php echo $non_friend['id']; ?>"><button
+                                            class="view-profile">Voir le profil</button></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        <?php else: ?>
-            <div class="chat-window">
+            <?php else: ?>
+                <div class="chat-window">
 
 
-                <ul class="message-list">
-                    <?php foreach ($messages as $message): ?>
-                        <?php if ($message['id'] == $user_id): ?>
-                            <li class="sent">
-                                <img src="uploads/<?php echo $user_image; ?>" alt="Image utilisateur" class="profile-image">
-                                <p>
-                                    <?php echo $message['contenu']; ?>
-                                </p>
-                            </li>
-                        <?php else: ?>
-                            <li class="received">
-                                <img src="uploads/<?php echo $message['image']; ?>" alt="Image utilisateur" class="profile-image">
-                                <div class="message-content">
-                                    <div class="message-header">
-                                        <span class="username">
-                                            <?php echo $message['nom']; ?>
-                                        </span>
-                                        <span class="message-time">
-                                            <?php echo date_format(date_create($message['date']), 'H:i'); ?>
-                                        </span>
-                                    </div>
-                                    <div class="message-body">
+                    <ul class="message-list">
+                        <?php foreach ($messages as $message): ?>
+                            <?php if ($message['id'] == $user_id): ?>
+                                <li class="sent">
+                                    <img src="uploads/<?php echo $user_image; ?>" alt="Image utilisateur" class="profile-image">
+                                    <p>
                                         <?php echo $message['contenu']; ?>
+                                    </p>
+                                </li>
+                            <?php else: ?>
+                                <li class="received">
+                                    <img src="uploads/<?php echo $message['image']; ?>" alt="Image utilisateur"
+                                        class="profile-image">
+                                    <div class="message-content">
+                                        <div class="message-header">
+                                            <span class="username">
+                                                <?php echo $message['nom']; ?>
+                                            </span>
+                                            <span class="message-time">
+                                                <?php echo date_format(date_create($message['date']), 'H:i'); ?>
+                                            </span>
+                                        </div>
+                                        <div class="message-body">
+                                            <?php echo $message['contenu']; ?>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        <?php endif; ?>
+                                </li>
+                            <?php endif; ?>
 
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
 
-                </ul>
+                    </ul>
 
-                <form class="send-message-form" action="" method="post">
-                    <input type="text" name="message" placeholder="Entrez votre message...">
-                    <button type="submit" name="submit_message"><i class="fas fa-paper-plane"></i></button>
-                </form>
-            </div>
-        <?php endif; ?>
+                    <form class="send-message-form" action="" method="post">
+                        <input type="text" name="message" placeholder="Entrez votre message...">
+                        <button type="submit" name="submit_message"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            <?php endif; ?>
+            <div class="discussion-container">
     </main>
     <footer>
         <nav>
